@@ -1,0 +1,38 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Noto Serif', serif;
+}
+h1 , h2 , h3 ,
+p , a , span{
+    font-style: normal;
+    line-height: normal;
+    padding: 0px;
+    margin: 0px;
+}
+ul , li , a{
+    list-style: none;
+    text-decoration: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* registration page */
+
+.register-container .main-bg {
+    background: #000 !important;
+}
+.register-container input:focus, .register-container button:focus {
+    border: 1px solid var(--main-bg) !important;
+    box-shadow: none !important;
+}
+
+.register-container .form-check-input:checked {
+    background-color: var(--main-bg) !important;
+    border-color: var(--main-bg) !important;
+}
+
+.register-container .card, .register-container .btn, .register-container input{
+    border-radius:0 !important;
+}
