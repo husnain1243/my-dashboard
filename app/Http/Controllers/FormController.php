@@ -46,6 +46,7 @@ class FormController extends Controller
                     $mail3 = Mail::to('husnainmohammad16@gmail.com')->send(new NotificationMail(json_encode($request->input()), "Notification"));
                     return redirect('/form-submitted');
                 } catch(Exception $e) {
+                    dd($e);
                     return redirect('/');
                 }
             }
