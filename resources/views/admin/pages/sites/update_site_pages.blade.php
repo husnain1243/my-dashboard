@@ -65,19 +65,19 @@
                             </div>
                             <div class="mb-4">
                                 <label for="html" class="form-label">Enter Page Code Here</label>
-                                <textarea type="text" class="form-control" id="html" name="html" rows="5" required >
+                                <textarea type="text" class="form-control" id="html" name="html" rows="8" required >
                                     {{ old('text', $Pages->html) }}
                                 </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="header_scripts" class="form-label">Enter Header Script </label>
-                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="3" >
+                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="6" >
                                     {{ old('text', $Pages->header_scripts) }}
                                 </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="footer_scripts" class="form-label">Enter Footer Script</label>
-                                <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="3">
+                                <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="6">
                                     {{ old('text', $Pages->footer_scripts) }}
                                 </textarea>
                             </div>

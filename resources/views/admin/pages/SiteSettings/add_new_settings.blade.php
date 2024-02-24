@@ -49,27 +49,27 @@
                             </div>
                             <div class="mb-4">
                                 <label for="header_scripts" class="form-label">Enter Header Scripts	</label>
-                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="6"></textarea>
+                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="8"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="footer_scripts" class="form-label">Enter Footer Scripts	</label>
-                                <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="6" ></textarea>
+                                <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="8" ></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="nav_html" class="form-label">Enter Nav Html</label>
-                                <textarea type="text" class="form-control" id="nav_html" name="nav_html" rows="6" ></textarea>
+                                <textarea type="text" class="form-control" id="nav_html" name="nav_html" rows="8" ></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="nav_css	" class="form-label">Enter Nav CSS</label>
-                                <textarea type="text" class="form-control" id="nav_css	" name="nav_css" rows="6"></textarea>
+                                <textarea type="text" class="form-control" id="nav_css	" name="nav_css" rows="8"></textarea>
                             </div>
                             <!-- <div class="mb-4">
                                 <label for="nav_project_data" class="form-label">Enter Nav Project Extra Data</label>
-                                <textarea type="text" class="form-control" id="nav_project_data" name="nav_project_data" rows="6" ></textarea>
+                                <textarea type="text" class="form-control" id="nav_project_data" name="nav_project_data" rows="8" ></textarea>
                             </div> -->
                             <div class="mb-4">
                                 <label for="footer_html" class="form-label">Enter Footer Html</label>
-                                <textarea type="text" class="form-control" id="footer_html" name="footer_html" rows="6" ></textarea>
+                                <textarea type="text" class="form-control" id="footer_html" name="footer_html" rows="8" ></textarea>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn text-light main-bg">Create New Settings</button>

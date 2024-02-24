@@ -9,15 +9,8 @@
 <body>
 
     <div class="email-template-wrapper">
-
-        <table>
-            @foreach($data as $key => $value)
-                <tr>
-                    <td>{{ $key }}</td>
-                    <td>{{ $value }}</td>
-                </tr>
-            @endforeach
-        </table>
+        
+        <p class="p">adsadsa</p>
 
     </div>
 

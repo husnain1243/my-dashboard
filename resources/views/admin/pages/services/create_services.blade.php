@@ -81,15 +81,15 @@
                             </div>
                             <div class="mb-4">
                                 <label for="summernote" class="form-label">Enter Code Here</label>
-                                <textarea type="text" class="form-control" id="summernote" name="summernote" rows="5"></textarea>
+                                <textarea type="text" class="form-control" id="summernote" name="summernote" rows="8"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="header_scripts" class="form-label">Enter Header Script </label>
-                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="3"></textarea>
+                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="6"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="footer_scripts" class="form-label">Enter Footer Script</label>
-                                <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="3"></textarea>
+                                <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="6"></textarea>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn text-light main-bg">Create Service</button>

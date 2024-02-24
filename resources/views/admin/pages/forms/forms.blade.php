@@ -23,16 +23,15 @@
                                         <td class="align-middle"><h4 class="text-center">{{$form->id}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center"
                                             style="
-                                                width: 400px;
                                                 height: 100px;
                                                 overflow-y: scroll;
                                             "
                                             >{{$form->data}}</h4></td>
                                         <td class="align-middle">
-                                            @if ($form->name != 'admin')
+                                            @if (Auth::user()->name != 'admin')
                                                 <a href="{{route('Forms_Delete' , $form->id)}}"><button class="border-0 bg-transparent" disabled>Delete</button></a>
                                             @endif
-                                            @if ($form->name == 'admin')
+                                            @if (Auth::user()->name == 'admin')
                                                 <a href="{{route('Forms_Delete' , $form->id)}}"><button class="border-0 bg-transparent">Delete</button></a>
                                             @endif
                                         </td>

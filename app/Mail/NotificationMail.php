@@ -43,6 +43,7 @@ class NotificationMail extends Mailable
      */
     public function content(): Content
     {
+        // dd($this->data);
         if($this->type == "Notification"){
             return new Content(
                 view: 'emails.notification',

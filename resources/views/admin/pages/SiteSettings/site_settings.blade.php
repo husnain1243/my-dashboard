@@ -31,19 +31,53 @@
                                         <td class="align-middle"><h4 class="text-center">{{$site_setting->id}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$site_setting->site_name}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$site_setting->title}}</h4></td>
-                                        <td class="align-middle"><h4 class="text-center">{{$site_setting->nav_html}}</h4></td>
-                                        <td class="align-middle"><h4 class="text-center">{{$site_setting->footer_html}}</h4></td>
-                                        <td class="align-middle"><h4 class="text-center">{{$site_setting->header_scripts}}</h4></td>
-                                        <td class="align-middle"><h4 class="text-center">{{$site_setting->footer_scripts}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center"
+                                            style="
+                                                width: 500px;
+                                                height: 150px;
+                                                overflow-y: scroll;
+                                                margin: 0 auto;
+                                            "
+                                            >{{$site_setting->nav_html}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center"
+                                            style="
+                                                width: 500px;
+                                                height: 150px;
+                                                overflow-y: scroll;
+                                                margin: 0 auto;
+                                            "
+                                            >{{$site_setting->footer_html}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center"
+                                            style="
+                                                width: 500px;
+                                                height: 150px;
+                                                overflow-y: scroll;
+                                                margin: 0 auto;
+                                            "
+                                            >{{$site_setting->header_scripts}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center"
+                                            style="
+                                                width: 500px;
+                                                height: 150px;
+                                                overflow-y: scroll;
+                                                margin: 0 auto;
+                                            "
+                                            >{{$site_setting->footer_scripts}}</h4></td>
                                         <td class="align-middle">
-                                            @if (Auth::user()->name != 'admin')
-                                                <a class="text-dark" href="{{route('Update_Site_Settings' , $site_setting->id)}}"><button class="border-0 bg-transparent">Update</button></a>/
-                                                <a href="{{route('Site_Setting_Delete' , $site_setting->id)}}"><button class="border-0 bg-transparent" disabled>delete</button></a>
-                                            @endif
-                                            @if (Auth::user()->name == 'admin')
-                                                <a class="text-dark" href="{{route('Update_Site_Settings' , $site_setting->id)}}"><button class="border-0 bg-transparent" >Update</button></a>/
-                                                <a href="{{route('Site_Setting_Delete' , $site_setting->id)}}"><button class="border-0 bg-transparent" >delete</button></a>
-                                            @endif
+                                            <h4 class=""
+                                                style="
+                                                    width: 200px;
+                                                "
+                                                >
+                                                @if (Auth::user()->name != 'admin')
+                                                    <a class="text-dark" href="{{route('Update_Site_Settings' , $site_setting->id)}}"><button class="border-0 bg-transparent">Update</button></a>/
+                                                    <a href="{{route('Site_Setting_Delete' , $site_setting->id)}}"><button class="border-0 bg-transparent" disabled>delete</button></a>
+                                                @endif
+                                                @if (Auth::user()->name == 'admin')
+                                                    <a class="text-dark" href="{{route('Update_Site_Settings' , $site_setting->id)}}"><button class="border-0 bg-transparent" >Update</button></a>/
+                                                    <a href="{{route('Site_Setting_Delete' , $site_setting->id)}}"><button class="border-0 bg-transparent" >delete</button></a>
+                                                @endif
+                                            </h4>
                                         </td>
                                     </tr>
                                 @endforeach

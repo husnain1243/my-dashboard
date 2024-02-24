@@ -57,6 +57,7 @@ class LoginRegister extends Controller
 
     public function create(Request $request)
     {
+        $Mediafilename = NULL;
         // dd("error");die();
         $request->validate([
             'name' => 'required',
@@ -67,17 +68,22 @@ class LoginRegister extends Controller
         ]);
         // dd($request);
 
-        $Mediaextension = $request->image->getClientOriginalExtension();
-        $Mediafilename = $request->image->getClientOriginalName();
-        $Mediatitle = pathinfo($Mediafilename, PATHINFO_FILENAME);
+        if($request->image){
 
-        $Media = new Media();
-        $Media->title = $Mediatitle;
-        $Media->extension = $Mediaextension;
-        $Media->path = $Mediafilename;
-        $Media->save();
+            $Mediaextension = $request->image->getClientOriginalExtension();
+            $Mediafilename = $request->image->getClientOriginalName();
+            $Mediatitle = pathinfo($Mediafilename, PATHINFO_FILENAME);
 
-        $request->image->move(public_path('media_uploads') , $Mediafilename);
+            $Media = new Media();
+            $Media->title = $Mediatitle;
+            $Media->extension = $Mediaextension;
+            $Media->path = $Mediafilename;
+            $Media->save();
+
+            $request->image->move(public_path('media_uploads') , $Mediafilename);
+
+        }
+
 
         $data = new User;
         $data->name = $request->name;

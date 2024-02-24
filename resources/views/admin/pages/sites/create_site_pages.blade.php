@@ -40,7 +40,7 @@
                                 <input type="text" class="form-control" id="name" name="name" required />
                             </div>
                             <div class="mb-4">
-                                <label for="slug" class="form-label">Enter Pgae Slug</label>
+                                <label for="slug" class="form-label">Enter Page Slug</label>
                                 <input type="text" class="form-control" id="slug" name="slug"  required />
                             </div>
                             <div class="mb-4">
@@ -65,15 +65,15 @@
                             </div>
                             <div class="mb-4">
                                 <label for="html" class="form-label">Enter Page Code Here</label>
-                                <textarea type="text" class="form-control" id="html" name="html" rows="5" required ></textarea>
+                                <textarea type="text" class="form-control" id="html" name="html" rows="8" required ></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="header_scripts" class="form-label">Enter Header Script </label>
-                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="3" ></textarea>
+                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="6" ></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="footer_scripts" class="form-label">Enter Footer Script</label>
-                                <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="3"></textarea>
+                                <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="6"></textarea>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn text-light main-bg">Create Page</button>

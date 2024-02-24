@@ -19,7 +19,19 @@ class PagesController extends Controller
     }
 
     public function HomePage(){
-
+        $slug = 'home';
+        $settings['settings'] = Settings::first();
+        $blogs['blogs'] = Blogs::get();
+        $page['pages'] = Pages::where('slug', '=', $slug)->first();
+        $data = [
+            'pages' => $page,
+            'blogs' => $blogs
+        ];
+        if($page){
+            return view('front.index' , $settings , $data );
+        } else {
+            return abort(404);
+        }
     }
 
     public function LoadPage($slug){
@@ -49,9 +61,9 @@ class PagesController extends Controller
         return view('admin.pages.SiteSettings.add_new_settings' , $create_site_settings);
     }
     function Create_Site_Form(Request $request){
-        // dd("error");die();
+        $Mediafilename = NULL;
         $request->validate([
-            'site_logo' => '',
+            'site_logo' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'site_name' => 'required',
             'title' => 'required',
             'header_scripts' => '',
@@ -61,15 +73,22 @@ class PagesController extends Controller
             'nav_project_data' => '',
             'footer_html' => '',
         ]);
-        // dd($request);
 
-        $name = $request->site_logo->getClientOriginalName();
-        $path = $request->site_logo->storeAs('/media_uploads', $name);
+        if($request->site_logo){
+            $Mediaextension = $request->site_logo->getClientOriginalExtension();
+            $Mediafilename = $request->site_logo->getClientOriginalName();
+            $Mediatitle = pathinfo($Mediafilename, PATHINFO_FILENAME);
 
-        $request->site_logo->move(public_path('media_uploads') , $name);
+            $Media = new Media();
+            $Media->title = $Mediatitle;
+            $Media->extension = $Mediaextension;
+            $Media->path = $Mediafilename;
+            $Media->save();
 
-        $jsonString = "{\"favicon\" : \"$path\"}";
-        // $jsonObject = json_decode($jsonString);
+            $request->site_logo->move(public_path('media_uploads') , $Mediafilename);
+        }
+
+        $jsonString = "{\"favicon\" : \"$Mediafilename\"}";
 
         $site_setting = new Settings();
         $site_setting->site_name = $request->site_name;
@@ -78,7 +97,7 @@ class PagesController extends Controller
         $site_setting->footer_scripts = $request->footer_scripts;
         $site_setting->nav_html = $request->nav_html;
         $site_setting->nav_css = $request->nav_css;
-        $site_setting->nav_project_data = $jsonString;
+        $site_setting->extras = $jsonString;
         $site_setting->footer_html = $request->footer_html;
         $site_setting->save();
 
@@ -93,9 +112,14 @@ class PagesController extends Controller
         return view('admin.pages.SiteSettings.site_settings_update' , $site_setting);
     }
     function Update_Site_Settings_New(Request $request , $id){
-        // dd("error");die();
+
+        $settings = Settings::first();
+
+        $Mediafilename = NULL;
+        $jsonString = NULL;
+
         $request->validate([
-            'site_logo' => '',
+            'site_logo' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'site_name' => 'required',
             'title' => 'required',
             'header_scripts' => '',
@@ -105,18 +129,34 @@ class PagesController extends Controller
             'nav_project_data' => '',
             'footer_html' => '',
         ]);
-        // dd($request);
 
-        // $image_name = time().'.'.$request->featured_img->extension();
-        // $request->featured_img->move(public_path('asserts') , $image_name);
+        if($request->site_logo){
+            $Mediaextension = $request->site_logo->getClientOriginalExtension();
+            $Mediafilename = $request->site_logo->getClientOriginalName();
+            $Mediatitle = pathinfo($Mediafilename, PATHINFO_FILENAME);
 
-        $name = $request->site_logo->getClientOriginalName();
-        $path = $request->site_logo->storeAs('/media_uploads', $name);
+            $Media = new Media();
+            $Media->title = $Mediatitle;
+            $Media->extension = $Mediaextension;
+            $Media->path = $Mediafilename;
+            $Media->save();
 
-        $request->site_logo->move(public_path('media_uploads') , $name);
+            $request->site_logo->move(public_path('media_uploads') , $Mediafilename);
+        }
 
-        $jsonString = "{\"favicon\" : \"$path\"}";
-        // $jsonObject = json_decode($jsonString);
+
+        if($settings->extras != NULL && $request->site_logo == NULL)
+        {
+            $jsonString = "{\"favicon\" : \"$settings->extras\"}";
+        }
+        if($settings->extras == NULL && $request->site_logo != NULL)
+        {
+            $jsonString = "{\"favicon\" : \"$Mediafilename\"}";
+        }
+        if($settings->extras != NULL && $request->site_logo != NULL)
+        {
+            $jsonString = "{\"favicon\" : \"$Mediafilename\"}";
+        }
 
         $site_setting = Settings::findOrFail($id);
         $site_setting->site_name = $request->site_name;
@@ -133,6 +173,7 @@ class PagesController extends Controller
             return redirect(route('Create_Site_Settings' , ['id' . '=' . $id]))->with("error", "Registration failed");
         }
         return redirect(route('Site_Settings'))->with("success", "Registered successfully");
+
     }
     function Site_Setting_Delete($id){
         $site_setting = Settings::findOrFail($id);
@@ -259,7 +300,7 @@ class PagesController extends Controller
     function Blogs_Saver(Request $request){
         // dd("error");die();
         $request->validate([
-            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
             'slug' => 'required',
             'status' => 'required',
@@ -316,7 +357,7 @@ class PagesController extends Controller
     function Blogs_Update_New(Request $request , $id){
         // dd("error");die();
         $request->validate([
-            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
             'slug' => 'required',
             'status' => 'required',
@@ -407,7 +448,7 @@ class PagesController extends Controller
     function Services_Saver(Request $request){
         // dd("error");die();
         $request->validate([
-            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
             'slug' => 'required',
             'status' => 'required',
@@ -465,7 +506,7 @@ class PagesController extends Controller
     function Services_Update_New(Request $request , $id){
         // dd("error");die();
         $request->validate([
-            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
             'slug' => 'required',
             'status' => 'required',
@@ -553,7 +594,7 @@ class PagesController extends Controller
     function Teams_Saver(Request $request){
         // dd("error");die();
         $request->validate([
-            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
             'slug' => 'required',
             'status' => 'required',
@@ -611,7 +652,7 @@ class PagesController extends Controller
     function Teams_Update_New(Request $request , $id){
         // dd("error");die();
         $request->validate([
-            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
             'slug' => 'required',
             'status' => 'required',

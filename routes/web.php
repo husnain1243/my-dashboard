@@ -17,8 +17,10 @@ Route::get('/admin/ForgetPassword' , [LoginRegister::class , 'forgetpassword'])-
 Route::get('/admin/userforgetpassword' , [LoginRegister::class , 'UserForgetPassword'])->name('UserForgetPassword');
 Route::get('/admin/logout' , [LoginRegister::class , 'logout'])->name('logout');
 
+Route::post('/forms-front/form-submit', [FormController::class, 'FormSubmit'])->name('form-submit');
 // User Pages route
 
+Route::get('/' , [PagesController::class , 'HomePage'])->name('home-page');
 Route::get('/{slug}' , [PagesController::class , 'LoadPage'])->name('load-page');
 
 // Authentication Controll route
@@ -79,10 +81,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/Teams_Delete/{id}' , [PagesController::class , 'Teams_Delete'])->name('Teams_Delete');
 
         // Admin Form Control Pages
-
-        Route::POST('/forms-front/form-submit', [FormController::class, 'FormSubmit'])->name('form-submit');
         Route::get('/Forms' , [FormController::class , 'Forms'])->name('Forms');
-        Route::get('/Forms_Delete/{id}' , [PagesController::class , 'Forms_Delete'])->name('Forms_Delete');
+        Route::get('/Forms_Delete/{id}' , [FormController::class , 'Forms_Delete'])->name('Forms_Delete');
 
         // Admin Media Control Pages
 

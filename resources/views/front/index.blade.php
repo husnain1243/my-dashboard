@@ -14,7 +14,7 @@
     <link rel="icon" href="/{{$favicon}}" type="image/x-icon">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-    {!! $pages['pages']->header_scripts ?? '' !!}
+    <script> {!! $pages['pages']->header_scripts ?? '' !!} </script>
 
     {!! $settings->header_scripts ?? '' !!}
 
@@ -32,11 +32,11 @@
 
     {!! $settings->footer_html ?? '' !!}
 
-    {!! $settings->nav_css ?? '' !!}
-
-    {!! $pages['pages']->footer_scripts ?? '' !!}
+    <style>    {!! $settings->nav_css ?? '' !!} </style>
 
     {!! $settings->footer_scripts ?? '' !!}
+
+    {!! $pages['pages']->footer_scripts ?? '' !!}
 
 </body>
 </html>

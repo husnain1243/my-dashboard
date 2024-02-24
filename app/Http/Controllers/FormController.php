@@ -20,26 +20,21 @@ class FormController extends Controller
     }
     public function Forms_Delete($id)
     {
-        $TeamsDelete = Services::findOrFail($id);
+        $TeamsDelete = Form::findOrFail($id);
         $TeamsDelete->delete();
         // session()->flash('error', 'No users present.');
-        return redirect()->route('Teams')->with('success', 'User deleted successfully');
+        return redirect()->route('Forms')->with('success', 'User deleted successfully');
     }
     public function FormSubmit(Request $request){
 
-        dd("in controller");
+        // dd("in controller");
 
         $form = new Form();
         $form->form_type = $request->form_type;
         $form->data = json_encode($request->input());
         if($form->save()){
-            // $sendMailController = new SendMailController();
-            // $sendMailController->index(json_encode($request->input()));
-            // $gifMailer = new GiftMail();
             if($request->form_type == "gift_form"){
                 try {
-                    $mail1 = Mail::to($request->giftedbyemail)->send(new GiftMail(json_encode($request->input()), "Sender"));
-                    $mail2 = Mail::to($request->giftedtoemail)->send(new GiftMail(json_encode($request->input()), "Receiver"));
                     $mail3 = Mail::to('husnainmohammad16@gmail.com')->send(new NotificationMail(json_encode($request->input()), "Notification"));
                     return redirect('/form-submitted');
                 } catch(Exception $e) {
