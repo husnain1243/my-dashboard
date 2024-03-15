@@ -8,6 +8,7 @@ use App\Models\Pages;
 use App\Models\Services;
 use App\Models\Settings;
 use App\Models\Teams;
+use App\Models\EmailTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -36,14 +37,41 @@ class PagesController extends Controller
 
     public function LoadPage($slug){
         $settings['settings'] = Settings::first();
-        $blogs['blogs'] = Blogs::get();
+        $blogs['blogs'] = Blogs::findOrFail($id);
         $page['pages'] = Pages::where('slug', '=', $slug)->first();
+        $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
+        $blogData = [
+            'blogs' => $blogs,
+            'latestArticles' => $latestArticles
+        ];
         $data = [
-            'pages' => $page,
-            'blogs' => $blogs
+            'settings' => $settings,
+            'blogData' => $blogData,
+            'page' => $page
         ];
         if($page){
-            return view('front.index' , $settings , $data );
+            return view('front.index' , $data );
+        } else {
+            return abort(404);
+        }
+    }
+
+    public function Blogdetails($id){
+        $settings['settings'] = Settings::first();
+        $blogs['blogs'] = Blogs::findOrFail($id);
+        $page['pages'] = Pages::where('slug', '=', $slug)->first();
+        $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
+        $blogData = [
+            'blogs' => $blogs,
+            'latestArticles' => $latestArticles
+        ];
+        $data = [
+            'settings' => $settings,
+            'blogData' => $blogData,
+            'page' => $page
+        ];
+        if($page){
+            return view('front.index' , $data );
         } else {
             return abort(404);
         }
@@ -61,7 +89,8 @@ class PagesController extends Controller
         return view('admin.pages.SiteSettings.add_new_settings' , $create_site_settings);
     }
     function Create_Site_Form(Request $request){
-        $Mediafilename = NULL;
+        $MediaFavicon = NULL;
+        $MediaPreloaderName = NULL;
         $request->validate([
             'site_logo' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'site_name' => 'required',
@@ -76,20 +105,36 @@ class PagesController extends Controller
 
         if($request->site_logo){
             $Mediaextension = $request->site_logo->getClientOriginalExtension();
-            $Mediafilename = $request->site_logo->getClientOriginalName();
-            $Mediatitle = pathinfo($Mediafilename, PATHINFO_FILENAME);
+            $MediaFavicon = $request->site_logo->getClientOriginalName();
+            $Mediatitle = pathinfo($MediaFavicon, PATHINFO_FILENAME);
 
             $Media = new Media();
             $Media->title = $Mediatitle;
             $Media->extension = $Mediaextension;
-            $Media->path = $Mediafilename;
+            $Media->path = $MediaFavicon;
             $Media->save();
 
-            $request->site_logo->move(public_path('media_uploads') , $Mediafilename);
+            $request->site_logo->move(public_path('media_uploads') , $MediaFavicon);
         }
 
-        $jsonString = "{\"favicon\" : \"$Mediafilename\"}";
+        if($request->site_preloader){
+            $Mediaextension = $request->site_preloader->getClientOriginalExtension();
+            $MediaPreloaderName = $request->site_preloader->getClientOriginalName();
+            $Mediatitle = pathinfo($MediaPreloaderName, PATHINFO_FILENAME);
 
+            $Media = new Media();
+            $Media->title = $Mediatitle;
+            $Media->extension = $Mediaextension;
+            $Media->path = $MediaPreloaderName;
+            $Media->save();
+
+            $request->site_preloader->move(public_path('media_uploads') , $MediaPreloaderName);
+        }
+        $data = [
+            'site-logo' => $MediaFavicon,
+            'site-preloader' => $MediaPreloaderName,
+            'preloader-enable' => $request->preloader_value
+        ];
         $site_setting = new Settings();
         $site_setting->site_name = $request->site_name;
         $site_setting->title = $request->title;
@@ -97,14 +142,15 @@ class PagesController extends Controller
         $site_setting->footer_scripts = $request->footer_scripts;
         $site_setting->nav_html = $request->nav_html;
         $site_setting->nav_css = $request->nav_css;
-        $site_setting->extras = $jsonString;
         $site_setting->footer_html = $request->footer_html;
+        $site_setting->extras = json_encode($data);
         $site_setting->save();
 
         if (!$site_setting->id) {
-            return redirect(route('Create_Site_Settings'))->with("error", "Registration failed");
+            return redirect(route('Create_Site_Settings' , ['id' . '=' . $id]))->with("error", "Registration failed");
         }
         return redirect(route('Site_Settings'))->with("success", "Registered successfully");
+        
     }
     function Update_Site_Settings($id){
         $site_setting['site_setting'] = Settings::find($id);
@@ -115,8 +161,8 @@ class PagesController extends Controller
 
         $settings = Settings::first();
 
-        $Mediafilename = NULL;
-        $jsonString = NULL;
+        $MediaFavicon = NULL;
+        $MediaPreloaderName = NULL;
 
         $request->validate([
             'site_logo' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
@@ -132,32 +178,37 @@ class PagesController extends Controller
 
         if($request->site_logo){
             $Mediaextension = $request->site_logo->getClientOriginalExtension();
-            $Mediafilename = $request->site_logo->getClientOriginalName();
-            $Mediatitle = pathinfo($Mediafilename, PATHINFO_FILENAME);
+            $MediaFavicon = $request->site_logo->getClientOriginalName();
+            $Mediatitle = pathinfo($MediaFavicon, PATHINFO_FILENAME);
 
             $Media = new Media();
             $Media->title = $Mediatitle;
             $Media->extension = $Mediaextension;
-            $Media->path = $Mediafilename;
+            $Media->path = $MediaFavicon;
             $Media->save();
 
-            $request->site_logo->move(public_path('media_uploads') , $Mediafilename);
+            $request->site_logo->move(public_path('media_uploads') , $MediaFavicon);
         }
 
+        if($request->site_preloader){
+            $Mediaextension = $request->site_preloader->getClientOriginalExtension();
+            $MediaPreloaderName = $request->site_preloader->getClientOriginalName();
+            $Mediatitle = pathinfo($MediaPreloaderName, PATHINFO_FILENAME);
 
-        if($settings->extras != NULL && $request->site_logo == NULL)
-        {
-            $jsonString = "{\"favicon\" : \"$settings->extras\"}";
-        }
-        if($settings->extras == NULL && $request->site_logo != NULL)
-        {
-            $jsonString = "{\"favicon\" : \"$Mediafilename\"}";
-        }
-        if($settings->extras != NULL && $request->site_logo != NULL)
-        {
-            $jsonString = "{\"favicon\" : \"$Mediafilename\"}";
+            $Media = new Media();
+            $Media->title = $Mediatitle;
+            $Media->extension = $Mediaextension;
+            $Media->path = $MediaPreloaderName;
+            $Media->save();
+
+            $request->site_preloader->move(public_path('media_uploads') , $MediaPreloaderName);
         }
 
+        $data = [
+            'site-logo' => $MediaFavicon,
+            'site-preloader' => $MediaPreloaderName,
+            'preloader-enable' => $request->site_preloader_name
+        ];
         $site_setting = Settings::findOrFail($id);
         $site_setting->site_name = $request->site_name;
         $site_setting->title = $request->title;
@@ -165,8 +216,8 @@ class PagesController extends Controller
         $site_setting->footer_scripts = $request->footer_scripts;
         $site_setting->nav_html = $request->nav_html;
         $site_setting->nav_css = $request->nav_css;
-        $site_setting->nav_project_data = $jsonString;
         $site_setting->footer_html = $request->footer_html;
+        $site_setting->extras = json_encode($data);
         $site_setting->save();
 
         if (!$site_setting->id) {
@@ -179,6 +230,39 @@ class PagesController extends Controller
         $site_setting = Settings::findOrFail($id);
         $site_setting->delete();
         return redirect()->route('Site_Settings')->with('success', 'User deleted successfully');
+    }
+
+    //Site Email Settings 
+
+    function Site_Email_Settings(){
+        $site_setting['siteSetting'] = json_decode(Settings::first()->nav_project_data);
+        $site_setting['PageTitle'] = 'Site Email Dashboard';
+        return view('admin.pages.SiteEmailSettings.site_email_settings' , $site_setting);
+    }
+    function Site_Email_Settings_Update(Request $request){
+        $settings = Settings::first();
+        $smtp_settings = [
+            'mail_driver' => $request->mail_driver,
+            'mail_mailer' => $request->mail_mailer,
+            'mail_port' => $request->mail_port,
+            'mail_encryption' => $request->mail_encryption,
+            'mail_host' => $request->mail_host,
+            'mail_username' => $request->mail_username,
+            'mail_password' => $request->mail_password,
+            'mail_from_address' => $request->mail_from_address,
+            'mail_from_name' => $request->mail_from_name
+        ];
+        $data = [
+            'smtp_settings' => $smtp_settings
+        ];
+        // dd($data);
+        $settings->nav_project_data = json_encode($data);
+        $settings->save();
+
+        if (!$settings) {
+            return redirect(route('Site_Email_Settings'))->with("error", "Registration failed");
+        }
+        return redirect(route('Site_Email_Settings'))->with("success", "Registered successfully");
     }
 
     //Site page functionality
@@ -273,8 +357,7 @@ class PagesController extends Controller
         }
         return redirect(route('SitePages'))->with("success", "Registered successfully");
     }
-    public function PagesDelete($id)
-    {
+    public function PagesDelete($id){
         $PagesDelete = Pages::findOrFail($id);
         $PagesDelete->delete();
         // session()->flash('error', 'No users present.');
@@ -410,8 +493,7 @@ class PagesController extends Controller
         }
         return redirect(route('Blogs'))->with("success", "Registered successfully");
     }
-    public function BlogDelete($id)
-    {
+    public function BlogDelete($id){
 
         $BlogsDelete = Blogs::findOrFail($id);
 
@@ -556,8 +638,7 @@ class PagesController extends Controller
         }
         return redirect(route('Services'))->with("success", "Registered successfully");
     }
-    public function Services_Delete($id)
-    {
+    public function Services_Delete($id){
 
         $ServicesDelete = Services::findOrFail($id);
 
@@ -702,8 +783,7 @@ class PagesController extends Controller
         }
         return redirect(route('Teams'))->with("success", "Registered successfully");
     }
-    public function Teams_Delete($id)
-    {
+    public function Teams_Delete($id){
         $TeamsDelete = Teams::findOrFail($id);
 
         if (Media::where('path' ,$TeamsDelete->featured_img )->exists()) {
@@ -717,6 +797,53 @@ class PagesController extends Controller
 
         $TeamsDelete->delete();
         return redirect()->route('Teams')->with('success', 'User deleted successfully');
+
+    }
+
+    //Team page functionality
+
+    function Email_Template(){
+        $Email_template['Email_template'] = EmailTemplate::get();
+        $Email_template['PageTitle'] = 'Email Template Dashboard';
+        return view('admin.pages.EmailTemplate.email_template_view' , $Email_template);
+    }
+    function Email_Template_create(){
+        return view('admin.pages.EmailTemplate.email_templete_create');
+    }
+    function Email_Template_Saver(Request $request){
+
+        $EmailTemplate = new EmailTemplate();
+        $EmailTemplate->name = $request->name;
+        $EmailTemplate->html = $request->html;
+        $EmailTemplate->extras = json_encode($request->extras);
+        $EmailTemplate->save();
+
+        if (!$EmailTemplate->id) {
+            return redirect(route('Email_Template_create'))->with("error", "Registration failed");
+        }
+        return redirect(route('Email_Template'))->with("success", "Registered successfully");
+    }
+    function Email_Template_Update($id){
+        $Email_template['Email_template'] = EmailTemplate::find($id);
+        $Email_template['PageTitle'] = 'Email Template Dashboard';
+        return view('admin.pages.EmailTemplate.email_template_update' , $Email_template);
+    }
+    function Email_Template_Update_saver(Request $request , $id){
+        $EmailTemplate = EmailTemplate::findOrFail($id);
+        $EmailTemplate->name = $request->name;
+        $EmailTemplate->html = $request->html;
+        $EmailTemplate->extras = json_encode($request->extras);
+        $EmailTemplate->save();
+
+        if (!$EmailTemplate->id) {
+            return redirect(route('Email_Template_create'))->with("error", "Registration failed");
+        }
+        return redirect(route('Email_Template'))->with("success", "Registered successfully");
+    }
+    public function Email_Template_Delete($id){
+        $EmailTemplate = EmailTemplate::findOrFail($id);
+        $EmailTemplate->delete();
+        return redirect()->route('Email_Template')->with('success', 'User deleted successfully');
 
     }
 
@@ -754,8 +881,7 @@ class PagesController extends Controller
         }
         return redirect(route('Media'))->with("success", "Registered successfully");
     }
-    public function Media_Delete($id)
-    {
+    public function Media_Delete($id){
         $MediaDelete = Media::findOrFail($id);
         $MediaDelete->delete();
 

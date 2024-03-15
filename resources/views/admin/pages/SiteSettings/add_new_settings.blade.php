@@ -35,41 +35,50 @@
                     <div class="card-body">
                         <form  method="POST" action="{{ route('Create_Site_Form') }}"  enctype="multipart/form-data">
                             @csrf
-                            <div class="mb-4">
-                                <label for="site_logo" class="form-label">Enter Site Logo</label>
-                                <input type="file" class="form-control" id="site_logo" name="site_logo"/>
-                            </div>
-                            <div class="mb-4">
-                                <label for="site_name" class="form-label">Enter Site Name</label>
-                                <input type="text" class="form-control" id="site_name" name="site_name" required/>
-                            </div>
-                            <div class="mb-4">
-                                <label for="title" class="form-label">Enter Seo Title</label>
-                                <input type="text" class="form-control" id="title" name="title" required/>
-                            </div>
-                            <div class="mb-4">
-                                <label for="header_scripts" class="form-label">Enter Header Scripts	</label>
-                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="8"></textarea>
-                            </div>
-                            <div class="mb-4">
-                                <label for="footer_scripts" class="form-label">Enter Footer Scripts	</label>
-                                <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="8" ></textarea>
-                            </div>
-                            <div class="mb-4">
-                                <label for="nav_html" class="form-label">Enter Nav Html</label>
-                                <textarea type="text" class="form-control" id="nav_html" name="nav_html" rows="8" ></textarea>
-                            </div>
-                            <div class="mb-4">
-                                <label for="nav_css	" class="form-label">Enter Nav CSS</label>
-                                <textarea type="text" class="form-control" id="nav_css	" name="nav_css" rows="8"></textarea>
-                            </div>
-                            <!-- <div class="mb-4">
-                                <label for="nav_project_data" class="form-label">Enter Nav Project Extra Data</label>
-                                <textarea type="text" class="form-control" id="nav_project_data" name="nav_project_data" rows="8" ></textarea>
-                            </div> -->
-                            <div class="mb-4">
-                                <label for="footer_html" class="form-label">Enter Footer Html</label>
-                                <textarea type="text" class="form-control" id="footer_html" name="footer_html" rows="8" ></textarea>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-4">
+                                    <label for="site_logo" class="form-label">Enter Site Logo</label>
+                                    <input type="file" class="form-control" id="site_logo" name="site_logo"/>
+                                </div>
+                                <div class="col-12 col-md-6 mb-4">
+                                    <label for="site_name" class="form-label">Enter Site Name</label>
+                                    <input type="text" class="form-control" id="site_name" name="site_name" required/>
+                                </div>
+                                <div class="col-12 col-md-6 mb-4">
+                                    <label for="site_preloader" class="form-label">Select Site Favicon</label>
+                                    <input type="file" class="form-control" id="site_preloader" name="site_preloader"/>
+                                </div>
+                                <div class="col-12 col-md-6 mb-4">
+                                    <label for="site_preloader_name" class="form-label">Favicon Selector</label>
+                                    <select id="site_preloader_name" name="site_preloader_name" class="form-control form-select" aria-label=".form-select example">
+                                        <option value="true">Enabled</option>
+                                        <option value="false">DisEnabled</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="title" class="form-label">Enter Seo Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" required/>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="header_scripts" class="form-label">Enter Header Scripts	</label>
+                                    <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="8"></textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="footer_scripts" class="form-label">Enter Footer Scripts	</label>
+                                    <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="8" ></textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="nav_html" class="form-label">Enter Nav Html</label>
+                                    <textarea type="text" class="form-control" id="nav_html" name="nav_html" rows="8" ></textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="nav_css	" class="form-label">Enter Nav CSS</label>
+                                    <textarea type="text" class="form-control" id="nav_css	" name="nav_css" rows="8"></textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="footer_html" class="form-label">Enter Footer Html</label>
+                                    <textarea type="text" class="form-control" id="footer_html" name="footer_html" rows="8" ></textarea>
+                                </div>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn text-light main-bg">Create New Settings</button>

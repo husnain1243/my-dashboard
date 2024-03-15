@@ -21,6 +21,8 @@ Route::post('/forms-front/form-submit', [FormController::class, 'FormSubmit'])->
 // User Pages route
 
 Route::get('/' , [PagesController::class , 'HomePage'])->name('home-page');
+
+Route::get('/blog/{id}' , [PagesController::class , 'Blogdetails'])->name('blog-detials');
 Route::get('/{slug}' , [PagesController::class , 'LoadPage'])->name('load-page');
 
 // Authentication Controll route
@@ -80,6 +82,15 @@ Route::prefix('admin')->group(function () {
         Route::post('/Teams_Update_New/{id}' , [PagesController::class , 'Teams_Update_New'])->name('Teams_Update_New');
         Route::get('/Teams_Delete/{id}' , [PagesController::class , 'Teams_Delete'])->name('Teams_Delete');
 
+        // Admin Email Control Pages
+
+        Route::get('/Email_Template' , [PagesController::class , 'Email_Template'])->name('Email_Template');
+        Route::get('/Email_Template_create' , [PagesController::class , 'Email_Template_create'])->name('Email_Template_create');
+        Route::post('/Email_Template_Saver' , [PagesController::class , 'Email_Template_Saver'])->name('Email_Template_Saver');
+        Route::get('/Email_Template_Update/{id}' , [PagesController::class , 'Email_Template_Update'])->name('Email_Template_Update');
+        Route::post('/Email_Template_Update_saver/{id}' , [PagesController::class , 'Email_Template_Update_saver'])->name('Email_Template_Update_saver');
+        Route::get('/Email_Template_Delete/{id}' , [PagesController::class , 'Email_Template_Delete'])->name('Email_Template_Delete');
+
         // Admin Form Control Pages
         Route::get('/Forms' , [FormController::class , 'Forms'])->name('Forms');
         Route::get('/Forms_Delete/{id}' , [FormController::class , 'Forms_Delete'])->name('Forms_Delete');
@@ -99,5 +110,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/Update_Site_Settings/{id}' , [PagesController::class , 'Update_Site_Settings'])->name('Update_Site_Settings');
         Route::post('/Update_Site_Settings_New/{id}' , [PagesController::class , 'Update_Site_Settings_New'])->name('Update_Site_Settings_New');
         Route::get('/Site_Setting_Delete/{id}' , [PagesController::class , 'Site_Setting_Delete'])->name('Site_Setting_Delete');
+
+        // Admin Site Email Settings 
+
+        Route::get('/Site_Email_Settings' , [PagesController::class , 'Site_Email_Settings'])->name('Site_Email_Settings');
+        Route::post('/Site_Email_Settings_Update' , [PagesController::class , 'Site_Email_Settings_Update'])->name('Site_Email_Settings_Update');
+        
     });
 });
