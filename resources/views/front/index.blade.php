@@ -59,7 +59,7 @@
 
     <div class="htmlcode">
 
-        {!! eval('?>' . Blade::render($pages['pages']->html ?? abort(404), ['blogs' => $blogData]) . '<?php'); !!}
+        {!! eval('?>' . Blade::render($pages['pages']->html ?? abort(404)) . '<?php'); !!}
 
     </div>
 

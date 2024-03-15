@@ -20,24 +20,32 @@ class PagesController extends Controller
     }
 
     public function HomePage(){
+        dd("home");
         $slug = 'home';
         $settings['settings'] = Settings::first();
         $blogs['blogs'] = Blogs::get();
         $page['pages'] = Pages::where('slug', '=', $slug)->first();
+        $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
+        $blogData = [
+            'blogs' => $blogs,
+            'latestArticles' => $latestArticles
+        ];
         $data = [
-            'pages' => $page,
-            'blogs' => $blogs
+            'settings' => $settings,
+            'blogData' => $blogData,
+            'page' => $page
         ];
         if($page){
-            return view('front.index' , $settings , $data );
+            return view('front.index' , $data );
         } else {
             return abort(404);
         }
     }
 
     public function LoadPage($slug){
+        dd($slug);
         $settings['settings'] = Settings::first();
-        $blogs['blogs'] = Blogs::findOrFail($id);
+        $blogs['blogs'] = Blogs::findOrFail($slug);
         $page['pages'] = Pages::where('slug', '=', $slug)->first();
         $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
         $blogData = [
