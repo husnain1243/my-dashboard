@@ -115,6 +115,15 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/Site_Email_Settings' , [PagesController::class , 'Site_Email_Settings'])->name('Site_Email_Settings');
         Route::post('/Site_Email_Settings_Update' , [PagesController::class , 'Site_Email_Settings_Update'])->name('Site_Email_Settings_Update');
+
+        // Admin Site DownloadsUploads Settings 
+
+        Route::get('/DownloadsUploads' , [PagesController::class , 'DownloadsUploads'])->name('DownloadsUploads');
+        Route::get('/DownloadsDB' , [PagesController::class , 'DownloadsDB'])->name('DownloadsDB');
+        Route::get('/DownloadsFile' , [PagesController::class , 'DownloadsFile'])->name('DownloadsFile');
+        Route::post('/UploadDB' , [PagesController::class , 'UploadDB'])->name('UploadDB');
+        Route::post('/UploadFile' , [PagesController::class , 'UploadFile'])->name('UploadFile');
+
         
     });
 });

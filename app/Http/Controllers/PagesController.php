@@ -11,6 +11,10 @@ use App\Models\Teams;
 use App\Models\EmailTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use ZipArchive;
 
 class PagesController extends Controller
 {
@@ -20,11 +24,10 @@ class PagesController extends Controller
     }
 
     public function HomePage(){
-        dd("home");
         $slug = 'home';
-        $settings['settings'] = Settings::first();
-        $blogs['blogs'] = Blogs::get();
-        $page['pages'] = Pages::where('slug', '=', $slug)->first();
+        $settings = Settings::first();
+        $blogs = Blogs::get();
+        $page = Pages::where('slug', '=', $slug)->first();
         $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
         $blogData = [
             'blogs' => $blogs,
@@ -43,10 +46,9 @@ class PagesController extends Controller
     }
 
     public function LoadPage($slug){
-        dd($slug);
-        $settings['settings'] = Settings::first();
-        $blogs['blogs'] = Blogs::findOrFail($slug);
-        $page['pages'] = Pages::where('slug', '=', $slug)->first();
+        $settings = Settings::first();
+        $blogs = Blogs::get();
+        $page = Pages::where('slug', '=', $slug)->first();
         $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
         $blogData = [
             'blogs' => $blogs,
@@ -65,9 +67,9 @@ class PagesController extends Controller
     }
 
     public function Blogdetails($id){
-        $settings['settings'] = Settings::first();
-        $blogs['blogs'] = Blogs::findOrFail($id);
-        $page['pages'] = Pages::where('slug', '=', $slug)->first();
+        $settings = Settings::first();
+        $blogs = Blogs::findOrFail($id);
+        $page = Pages::where('slug', '=', $slug)->first();
         $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
         $blogData = [
             'blogs' => $blogs,
@@ -273,6 +275,68 @@ class PagesController extends Controller
         return redirect(route('Site_Email_Settings'))->with("success", "Registered successfully");
     }
 
+    //Site DownloadsUploads Settings 
+
+    function DownloadsUploads(){
+        return view('admin.pages.DawnloadUploads.downloaduploads');
+    }
+    function DownloadsDB(){
+        dd("download db");
+        $filename = 'light_cms';
+        $outpufilename = public_path($filename);
+        $table = DB::select('SHOW TABLES');
+        $handle = fopen($outpufilename , 'w');
+        foreach($table as $table){
+            $tableName = reset($table);
+            fwrite($handle, "-- Table structure for table `$tableName`" . PHP_EOL);
+            fwrite($handle, DB::select("select CREATE TABLE $tableName")[0]->{'Create Table'} . ";" .PHP_EOL . PHP_EOL);
+
+            fwrite($handle, "-- Dumping data for table `$tableName`" . PHP_EOL);
+            $tableData = DB::table($tableName)->get()->toArray();
+            foreach($tableData as $row){
+                fwrite($handle, $this->generateInsertStatement($tableName, (array) $row) . ";" . PHP_EOL);
+            }            
+            fwrite($handle,PHP_EOL);
+        }
+        fclose($handle);
+        Storage::disk('public')->putFileAs('/', $outpufilename , $filename);
+        return response()->download($outpufilename)->deleteFileAfterSend(true);
+    }
+    private function generateInsertStatement($table , $data){
+        $columns = implode("`,`" , array_keys($data));
+        $values = "`" .implode("`,`" , array_values($data)) . "`";
+    }
+
+    function DownloadsFile(){
+        dd("download file");
+        $zip = new ZipArchieve();
+        $file = 'assets_flyfare';
+        $filename = $file.".zip";
+        if($zip->open(public_path($filename) , ZipArchieved::CREATE) === TRUE){
+            $file = FILE::files(public_path($file));
+            foreach($files as $files){
+                $zip->addFile($file , basename($file));
+            }
+            $zip->close();
+            return response()->download(public_path($filePath))->deleteFileAfterSend(true);
+        }else{
+            return "Failed to Download File";
+        }
+        return redirect()->back();
+    }
+    function UploadDB(Request $request){
+        dd("upload db");
+    }
+    function UploadFile(Request $request){
+        dd("download File");
+        $zip = new ZipArchieved;
+        if($zip->open($request->sql_file , ZipArchieved::CREATE)){
+            $zip->extractTo(public_path());
+            $zip->close();
+        }
+        return redirect()->back();
+    }
+
     //Site page functionality
 
     function SitePages(){
@@ -365,7 +429,7 @@ class PagesController extends Controller
         }
         return redirect(route('SitePages'))->with("success", "Registered successfully");
     }
-    public function PagesDelete($id){
+    function PagesDelete($id){
         $PagesDelete = Pages::findOrFail($id);
         $PagesDelete->delete();
         // session()->flash('error', 'No users present.');
@@ -501,7 +565,7 @@ class PagesController extends Controller
         }
         return redirect(route('Blogs'))->with("success", "Registered successfully");
     }
-    public function BlogDelete($id){
+    function BlogDelete($id){
 
         $BlogsDelete = Blogs::findOrFail($id);
 
@@ -646,7 +710,7 @@ class PagesController extends Controller
         }
         return redirect(route('Services'))->with("success", "Registered successfully");
     }
-    public function Services_Delete($id){
+    function Services_Delete($id){
 
         $ServicesDelete = Services::findOrFail($id);
 
@@ -791,7 +855,7 @@ class PagesController extends Controller
         }
         return redirect(route('Teams'))->with("success", "Registered successfully");
     }
-    public function Teams_Delete($id){
+    function Teams_Delete($id){
         $TeamsDelete = Teams::findOrFail($id);
 
         if (Media::where('path' ,$TeamsDelete->featured_img )->exists()) {
@@ -848,7 +912,7 @@ class PagesController extends Controller
         }
         return redirect(route('Email_Template'))->with("success", "Registered successfully");
     }
-    public function Email_Template_Delete($id){
+    function Email_Template_Delete($id){
         $EmailTemplate = EmailTemplate::findOrFail($id);
         $EmailTemplate->delete();
         return redirect()->route('Email_Template')->with('success', 'User deleted successfully');
@@ -889,7 +953,7 @@ class PagesController extends Controller
         }
         return redirect(route('Media'))->with("success", "Registered successfully");
     }
-    public function Media_Delete($id){
+    function Media_Delete($id){
         $MediaDelete = Media::findOrFail($id);
         $MediaDelete->delete();
 

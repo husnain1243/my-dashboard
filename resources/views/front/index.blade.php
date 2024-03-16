@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{!! $pages->meta_desc ?? '' !!}">
-    <title>{{ $pages['pages']->seo_title ?? '' }}</title>
+    <meta name="description" content="{!! $page->meta_desc ?? '' !!}">
+    <title>{{ $page->seo_title ?? '' }}</title>
     
     @php
         $favicon = "";
@@ -17,7 +17,7 @@
 
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-    <script> {!! $pages['pages']->header_scripts ?? '' !!} </script>
+    <script> {{ $page->header_scripts ?? '' }} </script>
 
     {!! $settings->header_scripts ?? '' !!}
 
@@ -59,7 +59,7 @@
 
     <div class="htmlcode">
 
-        {!! eval('?>' . Blade::render($pages['pages']->html ?? abort(404)) . '<?php'); !!}
+        {!! Blade::render($page->html ?? abort(404))  !!}
 
     </div>
 
@@ -69,7 +69,7 @@
 
     {!! $settings->footer_scripts ?? '' !!}
 
-    {!! $pages['pages']->footer_scripts ?? '' !!}
+    {!! $page->footer_scripts ?? '' !!}
 
     <script>
         $(document).ready(function(){

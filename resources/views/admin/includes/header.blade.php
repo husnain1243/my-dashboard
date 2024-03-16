@@ -18,6 +18,7 @@
                   Settings
                 </button>
                 <ul class="dropdown-menu">
+                  <li> <a href="{{route('DownloadsUploads')}}" class="nav-link text-dark">Dawnload & Upload</a> </li>
                   <li> <a href="{{route('Site_Email_Settings')}}" class="nav-link text-dark">Email Settings</a> </li>
                   <li> <a href="{{route('Site_Settings')}}" class="nav-link text-dark">Settings</a> </li>
                 </ul>
