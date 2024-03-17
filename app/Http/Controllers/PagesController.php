@@ -265,7 +265,6 @@ class PagesController extends Controller
         $data = [
             'smtp_settings' => $smtp_settings
         ];
-        // dd($data);
         $settings->nav_project_data = json_encode($data);
         $settings->save();
 
@@ -281,7 +280,6 @@ class PagesController extends Controller
         return view('admin.pages.DawnloadUploads.downloaduploads');
     }
     function DownloadsDB(){
-        dd("download db");
         $filename = 'light_cms';
         $outpufilename = public_path($filename);
         $table = DB::select('SHOW TABLES');
@@ -308,7 +306,6 @@ class PagesController extends Controller
     }
 
     function DownloadsFile(){
-        dd("download file");
         $zip = new ZipArchieve();
         $file = 'assets_flyfare';
         $filename = $file.".zip";
@@ -328,7 +325,6 @@ class PagesController extends Controller
         dd("upload db");
     }
     function UploadFile(Request $request){
-        dd("download File");
         $zip = new ZipArchieved;
         if($zip->open($request->sql_file , ZipArchieved::CREATE)){
             $zip->extractTo(public_path());
@@ -345,7 +341,6 @@ class PagesController extends Controller
         return view('admin.pages.sites.site_pages' , $site_pages);
     }
     function Create_Site_Pages(){
-        // dd('site create page');
         $create_site_pages['PageTitle'] = 'SitePages Create Dashboard';
         return view('admin.pages.sites.create_site_pages' , $create_site_pages);
     }
@@ -358,7 +353,6 @@ class PagesController extends Controller
         }
     }
     function Site_Pages_Saver(Request $request){
-        // dd("error");die();
         $request->validate([
             'name' => 'required',
             'slug' => 'required',
@@ -370,7 +364,6 @@ class PagesController extends Controller
             'header_scripts' => '',
             'footer_scripts' => '',
         ]);
-        // dd($request);
 
         $Pages = new Pages();
         $Pages->name = $request->name;
@@ -395,7 +388,6 @@ class PagesController extends Controller
         return view('admin.pages.sites.update_site_pages' , $Pages);
     }
     function Pages_Update_New(Request $request , $id){
-        // dd("error");die();
         $request->validate([
             'name' => 'required',
             'slug' => 'required',
@@ -407,10 +399,6 @@ class PagesController extends Controller
             'header_scripts' => '',
             'footer_scripts' => '',
         ]);
-        // dd($request);
-
-        // $image_name = time().'.'.$request->featured_img->extension();
-        // $request->featured_img->move(public_path('asserts') , $image_name);
 
         $Pages = Pages::findOrFail($id);
         $Pages->name = $request->name;
@@ -432,7 +420,6 @@ class PagesController extends Controller
     function PagesDelete($id){
         $PagesDelete = Pages::findOrFail($id);
         $PagesDelete->delete();
-        // session()->flash('error', 'No users present.');
         return redirect()->route('SitePages')->with('success', 'User deleted successfully');
     }
 
@@ -453,7 +440,6 @@ class PagesController extends Controller
         return view('admin.pages.blogs.create_blogs_pages' , $Create_blogs);
     }
     function Blogs_Saver(Request $request){
-        // dd("error");die();
         $request->validate([
             'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
@@ -469,7 +455,6 @@ class PagesController extends Controller
             'header_scripts' => '',
             'footer_scripts' => '',
         ]);
-        // dd($request);
 
         $Mediaextension = $request->featured_img->getClientOriginalExtension();
         $Mediafilename = $request->featured_img->getClientOriginalName();
@@ -510,7 +495,6 @@ class PagesController extends Controller
         return view('admin.pages.blogs.update_blogs' , $blogs);
     }
     function Blogs_Update_New(Request $request , $id){
-        // dd("error");die();
         $request->validate([
             'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
@@ -526,8 +510,6 @@ class PagesController extends Controller
             'header_scripts' => '',
             'footer_scripts' => '',
         ]);
-        // dd($request);
-
 
         $Mediaextension = $request->featured_img->getClientOriginalExtension();
         $Mediafilename = $request->featured_img->getClientOriginalName();
@@ -538,8 +520,6 @@ class PagesController extends Controller
         $Media->extension = $Mediaextension;
         $Media->path = $Mediafilename;
         $Media->save();
-
-
 
         $image_name = time().'.'.$request->featured_img->extension();
         $request->featured_img->move(public_path('media_uploads') , $image_name);
@@ -600,7 +580,6 @@ class PagesController extends Controller
         return view('admin.pages.services.create_services' , $Create_services);
     }
     function Services_Saver(Request $request){
-        // dd("error");die();
         $request->validate([
             'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
@@ -616,8 +595,6 @@ class PagesController extends Controller
             'header_scripts' => '',
             'footer_scripts' => '',
         ]);
-        // dd($request);
-
 
         $Mediaextension = $request->featured_img->getClientOriginalExtension();
         $Mediafilename = $request->featured_img->getClientOriginalName();
@@ -658,7 +635,6 @@ class PagesController extends Controller
         return view('admin.pages.services.update_services' , $Services);
     }
     function Services_Update_New(Request $request , $id){
-        // dd("error");die();
         $request->validate([
             'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
@@ -674,8 +650,6 @@ class PagesController extends Controller
             'header_scripts' => '',
             'footer_scripts' => '',
         ]);
-        // dd($request);
-
 
         $Mediaextension = $request->featured_img->getClientOriginalExtension();
         $Mediafilename = $request->featured_img->getClientOriginalName();
@@ -745,7 +719,6 @@ class PagesController extends Controller
         return view('admin.pages.teams.create_teams' , $Create_teams);
     }
     function Teams_Saver(Request $request){
-        // dd("error");die();
         $request->validate([
             'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
@@ -761,7 +734,6 @@ class PagesController extends Controller
             'header_scripts' => '',
             'footer_scripts' => '',
         ]);
-        // dd($request);
 
         $Mediaextension = $request->featured_img->getClientOriginalExtension();
         $Mediafilename = $request->featured_img->getClientOriginalName();
@@ -773,7 +745,6 @@ class PagesController extends Controller
         $Media->path = $Mediafilename;
         $Media->save();
 
-        // $image_name = time().'.'.$request->featured_img->extension();
         $request->featured_img->move(public_path('media_uploads') , $Mediafilename);
 
         $Teams = new Teams();
@@ -803,7 +774,6 @@ class PagesController extends Controller
         return view('admin.pages.teams.update_team' , $teams);
     }
     function Teams_Update_New(Request $request , $id){
-        // dd("error");die();
         $request->validate([
             'featured_img' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'title' => 'required',
@@ -819,7 +789,6 @@ class PagesController extends Controller
             'header_scripts' => '',
             'footer_scripts' => '',
         ]);
-        // dd($request);
 
         $Mediaextension = $request->featured_img->getClientOriginalExtension();
         $Mediafilename = $request->featured_img->getClientOriginalName();
@@ -831,7 +800,6 @@ class PagesController extends Controller
         $Media->path = $Mediafilename;
         $Media->save();
 
-        // $image_name = time().'.'.$request->featured_img->extension();
         $request->featured_img->move(public_path('media_uploads') , $Mediafilename);
 
         $Teams = Teams::findOrFail($id);
@@ -931,11 +899,9 @@ class PagesController extends Controller
         return view('admin.pages.media.create_media' , $Create_Media);
     }
     function Media_Saver(Request $request){
-        // dd("error");die();
         $request->validate([
             'featured_img' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
-        // dd($request);
 
         $extension = $request->featured_img->getClientOriginalExtension();
         $filename = $request->featured_img->getClientOriginalName();

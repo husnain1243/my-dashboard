@@ -54,10 +54,6 @@
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" />
                                 </div>
-                                {{-- <div class="mb-4">
-                                    <input type="checkbox" class="form-check-input" id="remember" />
-                                    <label for="remember" class="form-label">Remember Me</label>
-                                </div> --}}
                                 <div class="mb-3">
                                     <p>Don't have an account: <a class="text-dark underline" href="{{route('register')}}" >SignIn</a></p>
                                     <p>Forgot password: <a class="text-dark underline" href="{{route('ForgetPassword')}}" >Click Here</a></p>

@@ -22,6 +22,7 @@ class LoginRegister extends Controller
     function login(){
         return view('auth.login');
     }
+    
     public function logout(Request $request)
     {
         Auth::logout();
@@ -38,6 +39,7 @@ class LoginRegister extends Controller
         $data['users'] = User::where('id' , $id)->first();
         return view('admin.update' , $data);
     }
+
     function ForgetPassword(){
         return view('auth.forgetpassword');
     }
@@ -45,9 +47,7 @@ class LoginRegister extends Controller
     public function UserLogin(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        // dd($credentials);
         if (Auth::attempt($credentials)) {
-            // dd('success');
             return redirect()->route('Dashboard');
         }
         if (!Auth::attempt($credentials)){
@@ -58,7 +58,6 @@ class LoginRegister extends Controller
     public function create(Request $request)
     {
         $Mediafilename = NULL;
-        // dd("error");die();
         $request->validate([
             'name' => 'required',
             'username' => 'required',
@@ -66,25 +65,17 @@ class LoginRegister extends Controller
             'password' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg,bmp,tiff,webp,ico|max:2048'
         ]);
-        // dd($request);
-
         if($request->image){
-
             $Mediaextension = $request->image->getClientOriginalExtension();
             $Mediafilename = $request->image->getClientOriginalName();
             $Mediatitle = pathinfo($Mediafilename, PATHINFO_FILENAME);
-
             $Media = new Media();
             $Media->title = $Mediatitle;
             $Media->extension = $Mediaextension;
             $Media->path = $Mediafilename;
             $Media->save();
-
             $request->image->move(public_path('media_uploads') , $Mediafilename);
-
         }
-
-
         $data = new User;
         $data->name = $request->name;
         $data->username = $request->username;
@@ -92,23 +83,15 @@ class LoginRegister extends Controller
         $data->image = $Mediafilename;
         $data->password = Hash::make($request->password);
         $data->save();
-
         if (!$data->id) {
             return redirect(route('register'))->with("error", "Registration failed");
         }
         return redirect(route('login'))->with("success", "Registered successfully");
-
     }
 
     public function Userdelete($id)
     {
-
-
-        // session()->flash('error', 'No users present.');
-
-
         $user = User::findOrFail($id);
-
         if (Media::where('path' ,$user->image )->exists()) {
             $MediaDelete = Media::where('path' ,$user->image )->first();
             $filePath = public_path('media_uploads/' . $MediaDelete->path);
@@ -117,17 +100,12 @@ class LoginRegister extends Controller
             }
             $MediaDelete->delete();
         }
-
         $user->delete();
         return redirect()->route('Dashboard')->with('success', 'User deleted successfully');
-
-
-
     }
 
     public function updateUserRecord(Request $request , $id)
     {
-        // dd($request);die();
         $request->validate([
             'name' => 'required',
             'username' => 'required',
@@ -135,8 +113,6 @@ class LoginRegister extends Controller
             'password' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-        // dd($request);die();
-
         $Mediaextension = $request->image->getClientOriginalExtension();
         $Mediafilename = $request->image->getClientOriginalName();
         $Mediatitle = pathinfo($Mediafilename, PATHINFO_FILENAME);
@@ -165,7 +141,6 @@ class LoginRegister extends Controller
     function UserForgetPassword(Request $request){
         $data = User::where('email' , $request->email)->first();
         if(!empty($data)){
-            // Mail::to($request->email)->send(new ForgetPassMail($data));
             if($request->password == $request->repassword){
                 $data->password = Hash::make($request->password);
                 $data->save();
@@ -173,9 +148,7 @@ class LoginRegister extends Controller
                     return redirect(route('login'))->with("success", "password successfully changed");
                 }
             }
-            dd('ReEnter password are different. Enter again');
         }
-        dd('email not match');
     }
 
 }
