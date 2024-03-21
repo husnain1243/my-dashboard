@@ -14,6 +14,7 @@ class Blogs extends Model
         'status',
         'title',
         'slug',
+        'siteslug',
         'featured_img',
         'featured_img_alt',
         'meta_desc',

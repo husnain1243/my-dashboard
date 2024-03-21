@@ -10,6 +10,7 @@ class Media extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
+        'siteslug',
         'title',
         'path',
         'extension'

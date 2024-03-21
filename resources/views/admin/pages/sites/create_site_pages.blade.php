@@ -44,6 +44,14 @@
                                 <input type="text" class="form-control" id="slug" name="slug"  required />
                             </div>
                             <div class="mb-4">
+                                <label for="siteslug" class="form-label">Select Page Status</label>
+                                <select id="siteslug" name="siteslug" class="form-select" aria-label="Default select example" required >
+                                    <option selected>Select Options</option>
+                                    <option value="main">Main</option>
+                                    <option value="2">Draft</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
                                 <label for="status" class="form-label">Select Page Status</label>
                                 <select id="status" name="status" class="form-select" aria-label="Default select example" required >
                                     <option selected>Select Options</option>

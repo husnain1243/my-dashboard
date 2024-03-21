@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('form_type');
             $table->json('data');
+            $table->string('siteslug')->nullable();
             $table->json('extras')->nullable();
             $table->softDeletes();
             $table->timestamps();

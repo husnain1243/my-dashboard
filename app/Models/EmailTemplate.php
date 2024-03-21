@@ -13,6 +13,7 @@ class EmailTemplate extends Model
     protected $fillable = [
         "name",
         "slug",
+        'siteslug',
         "html",
         "extras",
         "header_scripts",

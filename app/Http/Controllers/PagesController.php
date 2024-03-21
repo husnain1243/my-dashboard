@@ -7,6 +7,7 @@ use App\Models\Media;
 use App\Models\Pages;
 use App\Models\Services;
 use App\Models\Settings;
+use App\Models\AllSites;
 use App\Models\Teams;
 use App\Models\EmailTemplate;
 use Illuminate\Http\Request;
@@ -341,8 +342,9 @@ class PagesController extends Controller
         return view('admin.pages.sites.site_pages' , $site_pages);
     }
     function Create_Site_Pages(){
-        $create_site_pages['PageTitle'] = 'SitePages Create Dashboard';
-        return view('admin.pages.sites.create_site_pages' , $create_site_pages);
+        $allsites = AllSites::get();
+        $create_site_pages = 'SitePages Create Dashboard';
+        return view('admin.pages.sites.create_site_pages' , [ 'PageTitle' => $create_site_pages , 'allsites' => $allsites ]);
     }
     function SitePagesDetails($id){
         $page['pages'] = Pages::findOrFail($id);

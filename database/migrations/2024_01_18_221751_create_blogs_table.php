@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->string('slug')->unique();
+            $table->string('siteslug')->nullable();
             $table->string('status')->nullable();
             $table->string('featured_img')->nullable();
             $table->string('featured_img_alt')->nullable();

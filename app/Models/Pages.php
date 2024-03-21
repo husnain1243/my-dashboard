@@ -13,6 +13,7 @@ class Pages extends Model
     protected $fillable = [
         "name",
         "slug",
+        'siteslug',
         "category",
         "status",
         "seo_title",

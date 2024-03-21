@@ -12,6 +12,7 @@ class Form extends Model
 
 
     protected $fillable = [
+        'siteslug',
         'form_type',
         'data',
         'extras',

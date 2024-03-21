@@ -13,6 +13,7 @@ class Teams extends Model
     protected $fillable = [
         'title',
         'slug',
+        'siteslug',
         'featured_img',
         'featured_img_alt',
         'meta_desc',

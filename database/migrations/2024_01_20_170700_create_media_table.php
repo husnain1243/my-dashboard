@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('media', function (Blueprint $table) {
             $table->id();
             $table->text('title')->nullable();
+            $table->string('siteslug')->nullable();
             $table->text('extension')->nullable();
             $table->string('path');
             $table->softDeletes();
