@@ -37,7 +37,7 @@
                             @csrf
                             <div class="mb-4">
                                 <label for="featured_img" class="form-label">Image</label>
-                                <input type="file" class="form-control" id="featured_img" name="featured_img"/>
+                                <input type="file" class="form-control" id="featured_img" name="featured_img" required/>
                             </div>
                             <div class="mb-4">
                                 <label for="title" class="form-label">Enter Services Name</label>
@@ -46,6 +46,15 @@
                             <div class="mb-4">
                                 <label for="slug" class="form-label">Enter Services Slug</label>
                                 <input type="text" class="form-control" id="slug" name="slug" value="{{$Services->slug}}" required/>
+                            </div>
+                            <div class="mb-4">
+                                <label for="siteslug" class="form-label">Select Site Slug</label>
+                                <select id="siteslug" name="siteslug" class="form-select" aria-label="Default select example" required >
+                                    <option selected value="main">Main</option>
+                                    @foreach($allsites as $all)
+                                        <option @if($Services->siteslug === $all->siteslug) selected @endif value="{{$all->siteslug}}">{{$all->siteslug}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="mb-4">
                                 <label for="status" class="form-label">Select Services Status</label>

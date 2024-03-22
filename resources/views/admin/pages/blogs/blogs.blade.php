@@ -16,6 +16,7 @@
                             <th scope="col"><h4 class="text-center">Images:</h4></th>
                             <th scope="col"><h4 class="text-center">Title:</h4></th>
                             <th scope="col"><h4 class="text-center">Slug:</h4></th>
+                            <th scope="col"><h4 class="text-center">Site Slug:</h4></th>
                             <th scope="col"><h4 class="text-center">Blog Data:</h4></th>
                             <th scope="col"><h4 class="text-center">author:</h4></th>
                             <th scope="col"><h4 class="text-center">Views:</h4></th>
@@ -34,6 +35,7 @@
                                         </td>
                                         <td class="align-middle"><h4 class="text-center">{{$blog->title}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$blog->slug}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center">{{$blog->siteslug}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center"
                                             style="
                                                 width: 500px;
@@ -59,7 +61,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="8"><h4 class="text-center">Blogs Not Found</h4></td>
+                                    <td colspan="9"><h4 class="text-center">Blogs Not Found</h4></td>
                                 <tr>
                             @endif
                         </tbody>

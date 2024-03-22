@@ -12,6 +12,7 @@
                         <thead>
                           <tr>
                             <th scope="col"><h4 class="text-center">Id:</h4></th>
+                            <th scope="col"><h4 class="text-center">Site Slug:</h4></th>
                             <th scope="col"><h4 class="text-center">Forms Data:</h4></th>
                             <th scope="col"></th>
                           </tr>
@@ -21,12 +22,14 @@
                                 @foreach ($forms as $form)
                                     <tr>
                                         <td class="align-middle"><h4 class="text-center">{{$form->id}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center">{{$form->siteslug}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center"
                                             style="
                                                 height: 100px;
                                                 overflow-y: scroll;
                                             "
                                             >{{$form->data}}</h4></td>
+                                            
                                         <td class="align-middle">
                                             @if (Auth::user()->name != 'admin')
                                                 <a href="{{route('Forms_Delete' , $form->id)}}"><button class="border-0 bg-transparent" disabled>Delete</button></a>

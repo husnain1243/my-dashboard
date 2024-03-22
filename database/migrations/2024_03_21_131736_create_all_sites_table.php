@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('meta_desc')->nullable();
             $table->string('meta_tags')->nullable();
             $table->string('header_scripts')->nullable();
-            $table->longText('site_header')->nullable();            
-            $table->longText('site_html')->nullable();
+            $table->longText('site_header')->nullable();
             $table->longText('site_footer')->nullable();
             $table->string('footer_scripts')->nullable();
             $table->json('extras')->nullable();

@@ -29,36 +29,19 @@
             <div class="col-12 col-lg-8">
                 <div class="card shadow">
                     <div class="card-title text-center border-bottom">
-                        <h2 class="p-3">Create Your Page</h2>
+                        <h2 class="p-3">{{$PageTitle}}</h2>
                         @include('includes.alert')
                     </div>
                     <div class="card-body">
-                        <form  method="GET" action="{{ route('Site_Pages_Saver') }}">
+                        <form  method="GET" action="{{ route('AllSite_Pages_Saver') }}">
                             @csrf
                             <div class="mb-4">
-                                <label for="name" class="form-label">Enter Page Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required />
+                                <label for="sitename" class="form-label">Enter Site Name</label>
+                                <input type="text" class="form-control" id="sitename" name="sitename" required />
                             </div>
                             <div class="mb-4">
-                                <label for="slug" class="form-label">Enter Page Slug</label>
-                                <input type="text" class="form-control" id="slug" name="slug"  required />
-                            </div>
-                            <div class="mb-4">
-                                <label for="siteslug" class="form-label">Select Site Slug</label>
-                                <select id="siteslug" name="siteslug" class="form-select" aria-label="Default select example" required >
-                                    <option value="main">Main</option>
-                                    @foreach($allsites as $all)
-                                        <option value="{{$all->siteslug}}">{{$all->siteslug}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-4">
-                                <label for="status" class="form-label">Select Page Status</label>
-                                <select id="status" name="status" class="form-select" aria-label="Default select example" required >
-                                    <option selected>Select Options</option>
-                                    <option value="1">Published</option>
-                                    <option value="2">Draft</option>
-                                </select>
+                                <label for="siteslug" class="form-label">Enter Site Slug</label>
+                                <input type="text" class="form-control" id="siteslug" name="siteslug"  required />
                             </div>
                             <div class="mb-4">
                                 <label for="seo_title" class="form-label">Enter Seo Title</label>
@@ -73,19 +56,27 @@
                                 <input type="text" class="form-control" id="meta_tags" name="meta_tags"  />
                             </div>
                             <div class="mb-4">
-                                <label for="html" class="form-label">Enter Page Code Here</label>
-                                <textarea type="text" class="form-control" id="html" name="html" rows="8" required ></textarea>
+                                <label for="header_scripts" class="form-label">Enter Header Script</label>
+                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="8" required ></textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="header_scripts" class="form-label">Enter Header Script </label>
-                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="6" ></textarea>
+                                <label for="site_header" class="form-label">Enter Site Header</label>
+                                <textarea type="text" class="form-control" id="site_header" name="site_header" rows="6" ></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label for="site_footer" class="form-label">Enter Site Footer</label>
+                                <textarea type="text" class="form-control" id="site_footer" name="site_footer" rows="6"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="footer_scripts" class="form-label">Enter Footer Script</label>
                                 <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="6"></textarea>
                             </div>
+                            <div class="mb-4">
+                                <label for="extras" class="form-label">Enter Site Extras</label>
+                                <textarea type="text" class="form-control" id="extras" name="extras" rows="6"></textarea>
+                            </div>
                             <div class="d-grid">
-                                <button type="submit" class="btn text-light main-bg">Create Page</button>
+                                <button type="submit" class="btn text-light main-bg">Create Site</button>
                             </div>
                         </form>
                     </div>

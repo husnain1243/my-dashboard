@@ -42,6 +42,15 @@ Route::prefix('admin')->group(function () {
         Route::post('/updateUserRecord/{id}' , [LoginRegister::class , 'updateUserRecord'])->name('updateUserRecord');
         Route::get('/DeleteUser/{id}' , [LoginRegister::class , 'Userdelete'])->name('DeleteUser');
 
+        // Admin AllSite Control
+
+        Route::get('/AllSitePages' , [PagesController::class , 'AllSitePages'])->name('AllSitePages');
+        Route::get('/Create_AllSitePages' , [PagesController::class , 'Create_AllSite_Pages'])->name('Create_AllSitePages');
+        Route::get('/AllSite_Pages_Saver' , [PagesController::class , 'AllSite_Pages_Saver'])->name('AllSite_Pages_Saver');
+        Route::get('/AllSite_Update/{id}' , [PagesController::class , 'AllSite_Update'])->name('AllSite_Update');
+        Route::post('/AllSite_Update_saver/{id}' , [PagesController::class , 'AllSite_Update_saver'])->name('AllSite_Update_saver');
+        Route::get('/AllSite_Pages_Delete/{id}' , [PagesController::class , 'AllSite_Pages_Delete'])->name('AllSite_Pages_Delete');
+    
         // Admin SitePages Control
 
         Route::get('/SitePages' , [PagesController::class , 'SitePages'])->name('SitePages');

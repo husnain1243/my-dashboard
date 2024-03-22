@@ -40,6 +40,15 @@
                                 <input type="text" class="form-control" id="name" name="name" required />
                             </div>
                             <div class="mb-4">
+                                <label for="siteslug" class="form-label">Select Site Slug</label>
+                                <select id="siteslug" name="siteslug" class="form-select" aria-label="Default select example" required >
+                                    <option selected value="main">Main</option>
+                                    @foreach($allsites as $all)
+                                        <option value="{{$all->siteslug}}">{{$all->siteslug}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-4">
                                 <label for="html" class="form-label">Enter Template Code Here</label>
                                 <textarea type="text" class="form-control" id="html" name="html" rows="8" required ></textarea>
                             </div>

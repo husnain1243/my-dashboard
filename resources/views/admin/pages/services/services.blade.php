@@ -16,6 +16,7 @@
                             <th scope="col"><h4 class="text-center">Image:</h4></th>
                             <th scope="col"><h4 class="text-center">Title:</h4></th>
                             <th scope="col"><h4 class="text-center">Slug:</h4></th>
+                            <th scope="col"><h4 class="text-center">Site Slug:</h4></th>
                             <th scope="col"><h4 class="text-center">Meta Desc:</h4></th>
                             <th scope="col"><h4 class="text-center">Author:</h4></th>
                             <th scope="col"></th>
@@ -33,6 +34,7 @@
                                         </td>
                                         <td class="align-middle"><h4 class="text-center">{{$service->title}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$service->slug}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center">{{$service->siteslug}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$service->meta_desc}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$service->author}}</h4></td>
                                         <td class="align-middle">
@@ -49,7 +51,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7"><h4 class="text-center">Pages Not Found</h4></td>
+                                    <td colspan="8"><h4 class="text-center">Pages Not Found</h4></td>
                                 <tr>
                             @endif
                         </tbody>

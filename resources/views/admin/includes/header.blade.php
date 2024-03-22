@@ -3,6 +3,7 @@
       <div class="container d-flex flex-wrap justify-content-between">
         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
             <li><a href="{{route('Dashboard')}}" class="nav-link text-secondary">Home</a></li>
+            <li><a href="{{route('AllSitePages')}}" class="nav-link text-white">AllSites</a></li>
             <li><a href="{{route('SitePages')}}" class="nav-link text-white">Pages</a></li>
             <li><a href="{{route('Blogs')}}" class="nav-link text-white">Blogs</a></li>
             <li><a href="{{route('Services')}}" class="nav-link text-white">Services</a></li>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AllSites extends Model
 {
@@ -17,7 +18,6 @@ class AllSites extends Model
         "meta_tags",
         'header_scripts',
         'site_header',
-        'site_html',
         'site_footer',
         'footer_scripts',
         'extras',

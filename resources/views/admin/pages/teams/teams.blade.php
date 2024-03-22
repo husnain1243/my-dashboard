@@ -16,7 +16,7 @@
                             <th scope="col"><h4 class="text-center">Image:</h4></th>
                             <th scope="col"><h4 class="text-center">Title:</h4></th>
                             <th scope="col"><h4 class="text-center">Slug:</h4></th>
-                            <th scope="col"><h4 class="text-center">Page Data:</h4></th>
+                            <th scope="col"><h4 class="text-center">Site Slug:</h4></th>
                             <th scope="col"><h4 class="text-center">Author:</h4></th>
                             <th scope="col"><h4 class="text-center">Category:</h4></th>
                             <th scope="col"></th>
@@ -34,14 +34,7 @@
                                         </td>
                                         <td class="align-middle"><h4 class="text-center">{{$team->title}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$team->slug}}</h4></td>
-                                        <td class="align-middle"><h4 class="text-center"
-                                            style="
-                                                width: 500px;
-                                                height: 150px;
-                                                overflow-y: scroll;
-                                                margin: 0 auto;
-                                            "
-                                            >{{$team->summernote}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center">{{$team->siteslug}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$team->author}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$team->category}}</h4></td>
                                         <td class="align-middle">

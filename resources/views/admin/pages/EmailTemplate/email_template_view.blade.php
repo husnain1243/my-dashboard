@@ -14,6 +14,7 @@
                           <tr>
                             <th scope="col"><h4 class="text-center">Id:</h4></th>
                             <th scope="col"><h4 class="text-center">Title:</h4></th>
+                            <th scope="col"><h4 class="text-center">Site Slug:</h4></th>
                             <th scope="col"><h4 class="text-center">Page Code:</h4></th>
                             <th scope="col"></th>
                           </tr>
@@ -24,6 +25,7 @@
                                     <tr>
                                         <td class="align-middle"><h4 class="text-center">{{$Email->id}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center">{{$Email->name}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center">{{$Email->siteslug}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center"
                                             style="
                                                 width: 500px;
@@ -45,7 +47,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="6"><h4 class="text-center">Pages Not Found</h4></td>
+                                    <td colspan="7"><h4 class="text-center">Pages Not Found</h4></td>
                                 <tr>
                             @endif
                         </tbody>

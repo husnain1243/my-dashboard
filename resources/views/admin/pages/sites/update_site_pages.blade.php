@@ -40,8 +40,17 @@
                                 <input type="text" class="form-control" id="name" name="name" value="{{$Pages->name}}" required />
                             </div>
                             <div class="mb-4">
-                                <label for="slug" class="form-label">Enter Pgae Slug</label>
+                                <label for="slug" class="form-label">Enter Page Slug</label>
                                 <input type="text" class="form-control" id="slug" name="slug" value="{{$Pages->slug}}"  required />
+                            </div>
+                            <div class="mb-4">
+                                <label for="siteslug" class="form-label">Select Site Slug</label>
+                                <select id="siteslug" name="siteslug" class="form-select" aria-label="Default select example" required >
+                                    <option value="main">Main</option>
+                                    @foreach($allsites as $all)
+                                        <option @if($Pages->siteslug == $all->siteslug) selected @endif  value="{{$all->siteslug}}">{{$all->siteslug}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="mb-4">
                                 <label for="status" class="form-label">Select Page Status</label>

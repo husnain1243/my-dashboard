@@ -48,6 +48,15 @@
                                 <input type="text" class="form-control" id="slug" name="slug" required/>
                             </div>
                             <div class="mb-4">
+                                <label for="siteslug" class="form-label">Select Site SLug</label>
+                                <select id="siteslug" name="siteslug" class="form-select" aria-label="Default select example" required>
+                                    <option selected value="main">Main</option>
+                                    @foreach($allsite as $all)
+                                        <option value="{{$all->siteslug}}">{{$all->siteslug}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-4">
                                 <label for="status" class="form-label">Select Teams Status</label>
                                 <select id="status" name="status" class="form-select" aria-label="Default select example" required>
                                     <option selected>Select Options</option>

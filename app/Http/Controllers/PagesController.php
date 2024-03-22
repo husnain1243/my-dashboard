@@ -20,11 +20,11 @@ use ZipArchive;
 class PagesController extends Controller
 {
 
-    public function index(){
+    function index(){
         return view('welcome');
     }
 
-    public function HomePage(){
+    function HomePage(){
         $slug = 'home';
         $settings = Settings::first();
         $blogs = Blogs::get();
@@ -46,7 +46,7 @@ class PagesController extends Controller
         }
     }
 
-    public function LoadPage($slug){
+    function LoadPage($slug){
         $settings = Settings::first();
         $blogs = Blogs::get();
         $page = Pages::where('slug', '=', $slug)->first();
@@ -67,7 +67,7 @@ class PagesController extends Controller
         }
     }
 
-    public function Blogdetails($id){
+    function Blogdetails($id){
         $settings = Settings::first();
         $blogs = Blogs::findOrFail($id);
         $page = Pages::where('slug', '=', $slug)->first();
@@ -305,7 +305,6 @@ class PagesController extends Controller
         $columns = implode("`,`" , array_keys($data));
         $values = "`" .implode("`,`" , array_values($data)) . "`";
     }
-
     function DownloadsFile(){
         $zip = new ZipArchieve();
         $file = 'assets_flyfare';
@@ -334,6 +333,66 @@ class PagesController extends Controller
         return redirect()->back();
     }
 
+    //AllSite page functionality
+
+    function AllSitePages(){
+        $site_pages['site_pages'] = AllSites::get();
+        $site_pages['PageTitle'] = 'All Site Dashboard';
+        return view('admin.pages.allsites.allsites_pages' , $site_pages);
+    }
+    function Create_AllSite_Pages(){
+        $create_site_pages = 'Create Your Site';
+        return view('admin.pages.allsites.create_allsites_pages' , [ 'PageTitle' => $create_site_pages]);
+    }
+    function AllSite_Pages_Saver(Request $request){
+        $AllSites = new AllSites();
+        $AllSites->sitename = $request->sitename;
+        $AllSites->siteslug = $request->siteslug;
+        $AllSites->seo_title = $request->seo_title;
+        $AllSites->meta_desc = $request->meta_desc;
+        $AllSites->meta_tags = $request->meta_tags;
+        $AllSites->header_scripts = $request->header_scripts;
+        $AllSites->site_header = $request->site_header;
+        $AllSites->site_footer = $request->site_footer;
+        $AllSites->footer_scripts = $request->footer_scripts;
+        $AllSites->extras = json_encode($request->extras);
+        $AllSites->save();
+
+        if (!$AllSites->id) {
+            return redirect(route('Create_AllSite_Pages'))->with("error", "Registration failed");
+        }
+        return redirect(route('AllSitePages'))->with("success", "Registered successfully");
+    }
+    function AllSite_Update($id){
+        $AllSites['AllSites'] = AllSites::find($id);
+        $AllSites['PageTitle'] = 'All Site Update Dashboard';
+        return view('admin.pages.allsites.update_allsite_page' , $AllSites);
+    }
+    function AllSite_Update_saver(Request $request , $id){
+        $AllSites = AllSites::findOrFail($id);
+        $AllSites->sitename = $request->sitename;
+        $AllSites->siteslug = $request->siteslug;
+        $AllSites->seo_title = $request->seo_title;
+        $AllSites->meta_desc = $request->meta_desc;
+        $AllSites->meta_tags = $request->meta_tags;
+        $AllSites->header_scripts = $request->header_scripts;
+        $AllSites->site_header = $request->site_header;
+        $AllSites->site_footer = $request->site_footer;
+        $AllSites->footer_scripts = $request->footer_scripts;
+        $AllSites->extras = json_encode($request->extras);
+        $AllSites->save();
+
+        if (!$AllSites->id) {
+            return redirect(route('Create_AllSite_Pages' , ['id' . '=' . $id]))->with("error", "Registration failed");
+        }
+        return redirect(route('AllSitePages'))->with("success", "Registered successfully");
+    }
+    function AllSite_Pages_Delete($id){
+        $AllSites = AllSites::findOrFail($id);
+        $AllSites->delete();
+        return redirect()->route('AllSitePages')->with('success', 'User deleted successfully');
+    }
+
     //Site page functionality
 
     function SitePages(){
@@ -347,7 +406,7 @@ class PagesController extends Controller
         return view('admin.pages.sites.create_site_pages' , [ 'PageTitle' => $create_site_pages , 'allsites' => $allsites ]);
     }
     function SitePagesDetails($id){
-        $page['pages'] = Pages::findOrFail($id);
+        $page['page'] = Pages::findOrFail($id);
         if($page){
             return view('front.index' , $page);
         } else {
@@ -355,21 +414,11 @@ class PagesController extends Controller
         }
     }
     function Site_Pages_Saver(Request $request){
-        $request->validate([
-            'name' => 'required',
-            'slug' => 'required',
-            'status' => 'required',
-            'seo_title' => '',
-            'meta_desc' => '',
-            'meta_tags' => '',
-            'html' => 'required',
-            'header_scripts' => '',
-            'footer_scripts' => '',
-        ]);
 
         $Pages = new Pages();
         $Pages->name = $request->name;
         $Pages->slug = $request->slug;
+        $Pages->siteslug = $request->siteslug;
         $Pages->status = $request->status;
         $Pages->seo_title = $request->seo_title;
         $Pages->meta_desc = $request->meta_desc;
@@ -385,9 +434,10 @@ class PagesController extends Controller
         return redirect(route('SitePages'))->with("success", "Registered successfully");
     }
     function PagesUpdate($id){
+        $allsites['allsites'] = AllSites::get();
         $Pages['Pages'] = Pages::find($id);
         $Pages['PageTitle'] = 'Pages Update Dashboard';
-        return view('admin.pages.sites.update_site_pages' , $Pages);
+        return view('admin.pages.sites.update_site_pages' , $Pages , $allsites);
     }
     function Pages_Update_New(Request $request , $id){
         $request->validate([
@@ -405,6 +455,7 @@ class PagesController extends Controller
         $Pages = Pages::findOrFail($id);
         $Pages->name = $request->name;
         $Pages->slug = $request->slug;
+        $Pages->siteslug = $request->siteslug;
         $Pages->status = $request->status;
         $Pages->seo_title = $request->seo_title;
         $Pages->meta_desc = $request->meta_desc;
@@ -438,6 +489,7 @@ class PagesController extends Controller
         return view('admin.pages.blogs.blog_details' , $blogs);
     }
     function Create_Blogs(){
+        $Create_blogs['AllSites'] = AllSites::get();
         $Create_blogs['PageTitle'] = 'Blogs Create Dashboard';
         return view('admin.pages.blogs.create_blogs_pages' , $Create_blogs);
     }
@@ -474,6 +526,7 @@ class PagesController extends Controller
         $Blogs->featured_img = $Mediafilename;
         $Blogs->title = $request->title;
         $Blogs->slug = $request->slug;
+        $Blogs->siteslug = $request->AllSites;
         $Blogs->status = $request->status;
         $Blogs->seo_title = $request->seo_title;
         $Blogs->author = $request->author;
@@ -492,6 +545,7 @@ class PagesController extends Controller
         return redirect(route('Blogs'))->with("success", "Registered successfully");
     }
     function BlogsUpdate($id){
+        $blogs['AllSites'] = AllSites::get();
         $blogs['blogs'] = Blogs::find($id);
         $blogs['PageTitle'] = 'Teams Dashboard';
         return view('admin.pages.blogs.update_blogs' , $blogs);
@@ -530,6 +584,7 @@ class PagesController extends Controller
         $Blogs->featured_img = $image_name;
         $Blogs->title = $request->title;
         $Blogs->slug = $request->slug;
+        $Blogs->siteslug = $request->AllSites;
         $Blogs->status = $request->status;
         $Blogs->seo_title = $request->seo_title;
         $Blogs->author = $request->author;
@@ -578,6 +633,7 @@ class PagesController extends Controller
         return view('admin.pages.services.services_details' , $services);
     }
     function Create_Services(){
+        $Create_services['allsites'] = AllSites::get();
         $Create_services['PageTitle'] = 'Services Create Dashboard';
         return view('admin.pages.services.create_services' , $Create_services);
     }
@@ -614,6 +670,7 @@ class PagesController extends Controller
         $Services->featured_img = $Mediafilename;
         $Services->title = $request->title;
         $Services->slug = $request->slug;
+        $Services->siteslug = $request->siteslug;
         $Services->status = $request->status;
         $Services->seo_title = $request->seo_title;
         $Services->author = $request->author;
@@ -632,6 +689,7 @@ class PagesController extends Controller
         return redirect(route('Services'))->with("success", "Registered successfully");
     }
     function Services_Update($id){
+        $Services['allsites'] = AllSites::get();
         $Services['Services'] = Services::find($id);
         $Services['PageTitle'] = 'Teams Dashboard';
         return view('admin.pages.services.update_services' , $Services);
@@ -669,6 +727,7 @@ class PagesController extends Controller
         $Services->featured_img = $Mediafilename;
         $Services->title = $request->title;
         $Services->slug = $request->slug;
+        $Services->siteslug = $request->siteslug;
         $Services->status = $request->status;
         $Services->seo_title = $request->seo_title;
         $Services->author = $request->author;
@@ -717,6 +776,7 @@ class PagesController extends Controller
         return view('admin.pages.teams.teams_details' , $teams);
     }
     function Create_Teams(){
+        $Create_teams['allsite'] = AllSites::get();
         $Create_teams['PageTitle'] = 'Teams Create Dashboard';
         return view('admin.pages.teams.create_teams' , $Create_teams);
     }
@@ -753,6 +813,7 @@ class PagesController extends Controller
         $Teams->featured_img = $Mediafilename;
         $Teams->title = $request->title;
         $Teams->slug = $request->slug;
+        $Teams->siteslug = $request->siteslug;
         $Teams->status = $request->status;
         $Teams->seo_title = $request->seo_title;
         $Teams->author = $request->author;
@@ -771,6 +832,7 @@ class PagesController extends Controller
         return redirect(route('Teams'))->with("success", "Registered successfully");
     }
     function Teams_Update($id){
+        $teams['allsite'] = AllSites::get();
         $teams['teams'] = Teams::find($id);
         $teams['PageTitle'] = 'Teams Dashboard';
         return view('admin.pages.teams.update_team' , $teams);
@@ -850,12 +912,14 @@ class PagesController extends Controller
         return view('admin.pages.EmailTemplate.email_template_view' , $Email_template);
     }
     function Email_Template_create(){
-        return view('admin.pages.EmailTemplate.email_templete_create');
+        $AllSites['allsites'] = AllSites::get();
+        return view('admin.pages.EmailTemplate.email_templete_create' , $AllSites);
     }
     function Email_Template_Saver(Request $request){
 
         $EmailTemplate = new EmailTemplate();
         $EmailTemplate->name = $request->name;
+        $EmailTemplate->siteslug = $request->siteslug;
         $EmailTemplate->html = $request->html;
         $EmailTemplate->extras = json_encode($request->extras);
         $EmailTemplate->save();
@@ -866,6 +930,7 @@ class PagesController extends Controller
         return redirect(route('Email_Template'))->with("success", "Registered successfully");
     }
     function Email_Template_Update($id){
+        $Email_template['allsites'] = AllSites::get();
         $Email_template['Email_template'] = EmailTemplate::find($id);
         $Email_template['PageTitle'] = 'Email Template Dashboard';
         return view('admin.pages.EmailTemplate.email_template_update' , $Email_template);
@@ -873,6 +938,7 @@ class PagesController extends Controller
     function Email_Template_Update_saver(Request $request , $id){
         $EmailTemplate = EmailTemplate::findOrFail($id);
         $EmailTemplate->name = $request->name;
+        $EmailTemplate->siteslug = $request->siteslug;
         $EmailTemplate->html = $request->html;
         $EmailTemplate->extras = json_encode($request->extras);
         $EmailTemplate->save();

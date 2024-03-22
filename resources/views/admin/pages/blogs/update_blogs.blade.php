@@ -48,6 +48,15 @@
                                 <input type="text" class="form-control" id="slug" name="slug" value="{{$blogs->slug}}"required />
                             </div>
                             <div class="mb-4">
+                                <label for="AllSites" class="form-label">Select Site</label>
+                                <select id="AllSites" name="AllSites" class="form-select" aria-label="Default select example" required >
+                                    <option selected value="main">Main</option>
+                                    @foreach($AllSites as $All)
+                                        <option @if($blogs->siteslug == $All->siteslug) selected @endif value="{{$All->siteslug}}">{{$All->siteslug}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-4">
                                 <label for="status" class="form-label">Select Blog Status</label>
                                 <select id="status" name="status" class="form-select" aria-label="Default select example" value="{{$blogs->status}}"required >
                                     <option selected>Select Options</option>
