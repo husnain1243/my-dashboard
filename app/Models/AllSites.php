@@ -20,6 +20,7 @@ class AllSites extends Model
         'site_header',
         'site_footer',
         'footer_scripts',
+        'site_css',
         'extras',
     ];
 }

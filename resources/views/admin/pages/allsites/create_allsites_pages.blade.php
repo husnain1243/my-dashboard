@@ -72,6 +72,10 @@
                                 <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="6"></textarea>
                             </div>
                             <div class="mb-4">
+                                <label for="site_css" class="form-label">Enter site Style</label>
+                                <textarea type="text" class="form-control" id="site_css" name="site_css" rows="6"></textarea>
+                            </div>
+                            <div class="mb-4">
                                 <label for="extras" class="form-label">Enter Site Extras</label>
                                 <textarea type="text" class="form-control" id="extras" name="extras" rows="6"></textarea>
                             </div>

@@ -355,6 +355,7 @@ class PagesController extends Controller
         $AllSites->site_header = $request->site_header;
         $AllSites->site_footer = $request->site_footer;
         $AllSites->footer_scripts = $request->footer_scripts;
+        $AllSites->site_css = $request->site_css;
         $AllSites->extras = json_encode($request->extras);
         $AllSites->save();
 
@@ -379,6 +380,7 @@ class PagesController extends Controller
         $AllSites->site_header = $request->site_header;
         $AllSites->site_footer = $request->site_footer;
         $AllSites->footer_scripts = $request->footer_scripts;
+        $AllSites->site_css = $request->site_css;
         $AllSites->extras = json_encode($request->extras);
         $AllSites->save();
 

@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('seo_title')->nullable();
             $table->string('meta_desc')->nullable();
             $table->string('meta_tags')->nullable();
-            $table->string('header_scripts')->nullable();
+            $table->longText('header_scripts')->nullable();
             $table->longText('site_header')->nullable();
             $table->longText('site_footer')->nullable();
-            $table->string('footer_scripts')->nullable();
+            $table->longText('footer_scripts')->nullable();
+            $table->longText('site_css')->nullable();
             $table->json('extras')->nullable();
             $table->softDeletes();
             $table->timestamps();
