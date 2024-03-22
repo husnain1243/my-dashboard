@@ -21,7 +21,7 @@
                         <tbody>
                             @if (count($users) > 0)
                                 @foreach ($users as $user)
-                                    @if($user->id != Auth::user()->id)
+                                    @if($user->name != Auth::user()->name && $user->name != 'admin')
                                         <tr>
                                             <td class="align-middle"><h4 class="text-center">{{$user->id}}</h4></td>
                                             <td class="align-middle">
@@ -33,11 +33,11 @@
                                             <td class="align-middle"><h4 class="text-center">{{$user->email}}</h4></td>
                                             <td class="align-middle">
                                                 <a class="text-dark" href="{{route('UserDetails' , $user->id)}}">View</a>/
-                                                @if ($user->name != 'admin')
+                                                @if (Auth::user()->name == 'admin')
                                                     <a class="text-dark" href="{{route('update' , $user->id)}}"><button class="border-0 bg-transparent" >Update</button></a>/
                                                     <a href="{{route('DeleteUser' , $user->id)}}"><button class="border-0 bg-transparent">delete</button></a>
                                                 @endif
-                                                @if ($user->name == 'admin')
+                                                @if (Auth::user()->name != 'admin')
                                                     <a class="text-dark" href="{{route('update' , $user->id)}}"><button class="border-0 bg-transparent" disabled>Update</button></a>/
                                                     <a href="{{route('DeleteUser' , $user->id)}}"><button class="border-0 bg-transparent" disabled>delete</button></a>
                                                 @endif
