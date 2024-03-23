@@ -57,7 +57,7 @@
                             </div>
                             <div class="mb-4">
                                 <label for="header_scripts" class="form-label">Enter Header Script</label>
-                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="8" required ></textarea>
+                                <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="8" ></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="site_header" class="form-label">Enter Site Header</label>
