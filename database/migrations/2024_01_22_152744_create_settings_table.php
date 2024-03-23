@@ -13,14 +13,9 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->text('site_name')->nullable();
-            $table->text('title')->nullable();
+            $table->text('homepage')->nullable();
             $table->text('header_scripts')->nullable();
             $table->text('footer_scripts')->nullable();
-            $table->longText('nav_html')->nullable();
-            $table->longText('nav_css')->nullable();
-            $table->longText('nav_project_data')->nullable();
-            $table->longText('footer_html')->nullable();
             $table->json('extras')->nullable();
             $table->timestamps();
         });

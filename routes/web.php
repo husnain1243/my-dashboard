@@ -9,25 +9,26 @@ use Illuminate\Support\Facades\Auth;
 
 // Admin CRUD Control Pages
 
-Route::get('/admin/login' , [LoginRegister::class , 'login'])->name('login');
-Route::get('/admin/userLogin' , [LoginRegister::class , 'UserLogin'])->name('UserLogin');
-Route::get('/admin/register' , [LoginRegister::class , 'register'])->name('register');
-Route::post('/admin/userregister' , [LoginRegister::class , 'create'])->name('UserRegister');
-Route::get('/admin/ForgetPassword' , [LoginRegister::class , 'forgetpassword'])->name('ForgetPassword');
-Route::get('/admin/userforgetpassword' , [LoginRegister::class , 'UserForgetPassword'])->name('UserForgetPassword');
-Route::get('/admin/logout' , [LoginRegister::class , 'logout'])->name('logout');
+Route::get('/admin/sites/login' , [LoginRegister::class , 'login'])->name('login');
+Route::get('/admin/sites/userLogin' , [LoginRegister::class , 'UserLogin'])->name('UserLogin');
+Route::get('/admin/sites/register' , [LoginRegister::class , 'register'])->name('register');
+Route::post('/admin/sites/userregister' , [LoginRegister::class , 'create'])->name('UserRegister');
+Route::get('/admin/sites/ForgetPassword' , [LoginRegister::class , 'forgetpassword'])->name('ForgetPassword');
+Route::get('/admin/sites/userforgetpassword' , [LoginRegister::class , 'UserForgetPassword'])->name('UserForgetPassword');
+Route::get('/admin/sites/logout' , [LoginRegister::class , 'logout'])->name('logout');
 
-Route::post('/forms-front/form-submit', [FormController::class, 'FormSubmit'])->name('form-submit');
+Route::post('/sites/forms-front/form-submit', [FormController::class, 'FormSubmit'])->name('form-submit');
 // User Pages route
 
 Route::get('/' , [PagesController::class , 'HomePage'])->name('home-page');
 
 Route::get('/blog/{id}' , [PagesController::class , 'Blogdetails'])->name('blog-detials');
 Route::get('/{slug}' , [PagesController::class , 'LoadPage'])->name('load-page');
+Route::get('/{siteslug}/{slug}' , [PagesController::class , 'LoadMutiPage'])->name('LoadMutiPage');
 
 // Authentication Controll route
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin/sites')->group(function () {
     Auth::routes();
     Route::middleware('auth')->group(function(){
 
@@ -101,6 +102,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/Email_Template_Delete/{id}' , [PagesController::class , 'Email_Template_Delete'])->name('Email_Template_Delete');
 
         // Admin Form Control Pages
+     
         Route::get('/Forms' , [FormController::class , 'Forms'])->name('Forms');
         Route::get('/Forms_Delete/{id}' , [FormController::class , 'Forms_Delete'])->name('Forms_Delete');
 

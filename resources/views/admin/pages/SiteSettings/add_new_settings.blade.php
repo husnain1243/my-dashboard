@@ -41,8 +41,12 @@
                                     <input type="file" class="form-control" id="site_logo" name="site_logo"/>
                                 </div>
                                 <div class="col-12 col-md-6 mb-4">
-                                    <label for="site_name" class="form-label">Enter Site Name</label>
-                                    <input type="text" class="form-control" id="site_name" name="site_name" required/>
+                                    <label for="AllSites" class="form-label">Select Home Page</label>
+                                    <select id="AllSites" name="AllSites" class="form-control form-select" aria-label=".form-select example">
+                                        @foreach($AllSites as $all)
+                                            <option value="{{$all->siteslug}}">{{$all->siteslug}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-12 col-md-6 mb-4">
                                     <label for="site_preloader" class="form-label">Select Site Favicon</label>
@@ -56,28 +60,12 @@
                                     </select>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="title" class="form-label">Enter Seo Title</label>
-                                    <input type="text" class="form-control" id="title" name="title" required/>
-                                </div>
-                                <div class="mb-4">
                                     <label for="header_scripts" class="form-label">Enter Header Scripts	</label>
                                     <textarea type="text" class="form-control" id="header_scripts" name="header_scripts" rows="8"></textarea>
                                 </div>
                                 <div class="mb-4">
                                     <label for="footer_scripts" class="form-label">Enter Footer Scripts	</label>
                                     <textarea type="text" class="form-control" id="footer_scripts" name="footer_scripts" rows="8" ></textarea>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="nav_html" class="form-label">Enter Nav Html</label>
-                                    <textarea type="text" class="form-control" id="nav_html" name="nav_html" rows="8" ></textarea>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="nav_css	" class="form-label">Enter Nav CSS</label>
-                                    <textarea type="text" class="form-control" id="nav_css	" name="nav_css" rows="8"></textarea>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="footer_html" class="form-label">Enter Footer Html</label>
-                                    <textarea type="text" class="form-control" id="footer_html" name="footer_html" rows="8" ></textarea>
                                 </div>
                             </div>
                             <div class="d-grid">

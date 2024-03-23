@@ -17,9 +17,10 @@
 
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-    <script> {{ $page->header_scripts ?? '' }} </script>
+    {{ $page->header_scripts ?? '' }}
 
     {!! $settings->header_scripts ?? '' !!}
+    {!! $all_site_settings->header_scripts ?? '' !!}
 
 </head>
 
@@ -50,12 +51,12 @@
     @endphp
     
     @if($preloader == 'true')
-    <div id="preloader" class="preloader justify-content-center align-items-center top-0 position-fixed">
-        <img src="/media_uploads/{{$preloader}}" alt={{$preloader}} class="w-25 img-fluid d-block m-auto">
-    </div>
+        <div id="preloader" class="preloader justify-content-center align-items-center top-0 position-fixed">
+            <img src="/media_uploads/{{$preloader}}" alt={{$preloader}} class="w-25 img-fluid d-block m-auto">
+        </div>
     @endif
 
-    {!! $settings->nav_html ?? '' !!}
+    {!! $all_site_settings->site_header ?? '' !!}
 
     <div class="htmlcode">
 
@@ -63,11 +64,10 @@
 
     </div>
 
-    {!! $settings->footer_html ?? '' !!}
-
-    <style>    {!! $settings->nav_css ?? '' !!} </style>
+    {!! $all_site_settings->site_footer ?? '' !!}
 
     {!! $settings->footer_scripts ?? '' !!}
+    {!! $all_site_settings->footer_scripts ?? '' !!}
 
     {!! $page->footer_scripts ?? '' !!}
 
@@ -76,6 +76,10 @@
             $('#preloader').addClass('preloaderstop');
         });
     </script>
+
+    <style>{!! $all_site_settings->site_css ?? '' !!}</style>
+    <style>{!! $settings->nav_css ?? '' !!}</style>
+
 
 </body>
 </html>

@@ -28,13 +28,15 @@ class PagesController extends Controller
         $slug = 'home';
         $settings = Settings::first();
         $blogs = Blogs::get();
-        $page = Pages::where('slug', '=', $slug)->first();
+        $AllSiteSettings = AllSites::where('siteslug' , '=' , $settings->homepage)->first();
+        $page = Pages::where('slug', '=', $slug)->where('siteslug', '=', $settings->homepage)->first();
         $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
         $blogData = [
             'blogs' => $blogs,
             'latestArticles' => $latestArticles
         ];
         $data = [
+            'all_site_settings' => $AllSiteSettings,
             'settings' => $settings,
             'blogData' => $blogData,
             'page' => $page
@@ -49,13 +51,38 @@ class PagesController extends Controller
     function LoadPage($slug){
         $settings = Settings::first();
         $blogs = Blogs::get();
-        $page = Pages::where('slug', '=', $slug)->first();
+        $AllSiteSettings = AllSites::where('siteslug' , '=' , $settings->homepage)->first();
+        $page = Pages::where('slug', '=', $slug)->where('siteslug' , '=' , $settings->homepage)->first();
         $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
         $blogData = [
             'blogs' => $blogs,
             'latestArticles' => $latestArticles
         ];
         $data = [
+            'all_site_settings' => $AllSiteSettings,
+            'settings' => $settings,
+            'blogData' => $blogData,
+            'page' => $page
+        ];
+        if($page){
+            return view('front.index' , $data );
+        } else {
+            return abort(404);
+        }
+    }
+
+    function LoadMutiPage($siteslug , $slug){
+        $settings = Settings::first();
+        $blogs = Blogs::get();
+        $AllSiteSettings = AllSites::where('siteslug' , '=' , $siteslug)->first();
+        $page = Pages::where('slug', '=', $slug)->where('siteslug' , '=' , $siteslug)->first();
+        $latestArticles = Blogs::orderby('created_at' , 'desc')->limit(1)->get();
+        $blogData = [
+            'blogs' => $blogs,
+            'latestArticles' => $latestArticles
+        ];
+        $data = [
+            'all_site_settings' => $AllSiteSettings,
             'settings' => $settings,
             'blogData' => $blogData,
             'page' => $page
@@ -96,6 +123,7 @@ class PagesController extends Controller
         return view('admin.pages.SiteSettings.site_settings' , $site_setting);
     }
     function Create_Site_Settings(){
+        $create_site_settings['AllSites'] = AllSites::get();
         $create_site_settings['PageTitle'] = 'SitePages Create Dashboard';
         return view('admin.pages.SiteSettings.add_new_settings' , $create_site_settings);
     }
@@ -104,14 +132,6 @@ class PagesController extends Controller
         $MediaPreloaderName = NULL;
         $request->validate([
             'site_logo' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
-            'site_name' => 'required',
-            'title' => 'required',
-            'header_scripts' => '',
-            'footer_scripts' => '',
-            'nav_html' => '',
-            'nav_css' => '',
-            'nav_project_data' => '',
-            'footer_html' => '',
         ]);
 
         if($request->site_logo){
@@ -147,13 +167,9 @@ class PagesController extends Controller
             'preloader-enable' => $request->preloader_value
         ];
         $site_setting = new Settings();
-        $site_setting->site_name = $request->site_name;
-        $site_setting->title = $request->title;
+        $site_setting->homepage = $request->AllSites;
         $site_setting->header_scripts = $request->header_scripts;
         $site_setting->footer_scripts = $request->footer_scripts;
-        $site_setting->nav_html = $request->nav_html;
-        $site_setting->nav_css = $request->nav_css;
-        $site_setting->footer_html = $request->footer_html;
         $site_setting->extras = json_encode($data);
         $site_setting->save();
 
@@ -164,6 +180,7 @@ class PagesController extends Controller
         
     }
     function Update_Site_Settings($id){
+        $site_setting['AllSites'] = AllSites::get();
         $site_setting['site_setting'] = Settings::find($id);
         $site_setting['PageTitle'] = 'Settings Update Form';
         return view('admin.pages.SiteSettings.site_settings_update' , $site_setting);
@@ -177,14 +194,6 @@ class PagesController extends Controller
 
         $request->validate([
             'site_logo' => 'image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
-            'site_name' => 'required',
-            'title' => 'required',
-            'header_scripts' => '',
-            'footer_scripts' => '',
-            'nav_html' => '',
-            'nav_css' => '',
-            'nav_project_data' => '',
-            'footer_html' => '',
         ]);
 
         if($request->site_logo){
@@ -221,13 +230,9 @@ class PagesController extends Controller
             'preloader-enable' => $request->site_preloader_name
         ];
         $site_setting = Settings::findOrFail($id);
-        $site_setting->site_name = $request->site_name;
-        $site_setting->title = $request->title;
+        $site_setting->homepage = $request->AllSites;
         $site_setting->header_scripts = $request->header_scripts;
         $site_setting->footer_scripts = $request->footer_scripts;
-        $site_setting->nav_html = $request->nav_html;
-        $site_setting->nav_css = $request->nav_css;
-        $site_setting->footer_html = $request->footer_html;
         $site_setting->extras = json_encode($data);
         $site_setting->save();
 

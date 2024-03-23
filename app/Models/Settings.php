@@ -9,13 +9,9 @@ class Settings extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'site_name',
-        'title',
+        'homepage',
         'header_scripts',
         'footer_scripts',
-        'nav_html',
-        'nav_css',
-        'footer_html',
         'extras',
     ];
 }

@@ -15,10 +15,7 @@
                         <thead>
                           <tr>
                             <th scope="col"><h4 class="text-center">Id:</h4></th>
-                            <th scope="col"><h4 class="text-center">Site Name:</h4></th>
-                            <th scope="col"><h4 class="text-center">Title:</h4></th>
-                            <th scope="col"><h4 class="text-center">Nav Html:</h4></th>
-                            <th scope="col"><h4 class="text-center">Footer Html:</h4></th>
+                            <th scope="col"><h4 class="text-center">Home Page:</h4></th>
                             <th scope="col"><h4 class="text-center">Header Scripts:</h4></th>
                             <th scope="col"><h4 class="text-center">Footer Scripts:</h4></th>
                             <th scope="col"></th>
@@ -29,27 +26,10 @@
                                 @foreach ($siteSetting as $site_setting)
                                     <tr>
                                         <td class="align-middle"><h4 class="text-center">{{$site_setting->id}}</h4></td>
-                                        <td class="align-middle"><h4 class="text-center">{{$site_setting->site_name}}</h4></td>
-                                        <td class="align-middle"><h4 class="text-center">{{$site_setting->title}}</h4></td>
+                                        <td class="align-middle"><h4 class="text-center">{{$site_setting->homepage}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center"
                                             style="
-                                                width: 500px;
-                                                height: 150px;
-                                                overflow-y: scroll;
-                                                margin: 0 auto;
-                                            "
-                                            >{{$site_setting->nav_html}}</h4></td>
-                                        <td class="align-middle"><h4 class="text-center"
-                                            style="
-                                                width: 500px;
-                                                height: 150px;
-                                                overflow-y: scroll;
-                                                margin: 0 auto;
-                                            "
-                                            >{{$site_setting->footer_html}}</h4></td>
-                                        <td class="align-middle"><h4 class="text-center"
-                                            style="
-                                                width: 500px;
+                                                width: 400px;
                                                 height: 150px;
                                                 overflow-y: scroll;
                                                 margin: 0 auto;
@@ -57,7 +37,7 @@
                                             >{{$site_setting->header_scripts}}</h4></td>
                                         <td class="align-middle"><h4 class="text-center"
                                             style="
-                                                width: 500px;
+                                                width: 400px;
                                                 height: 150px;
                                                 overflow-y: scroll;
                                                 margin: 0 auto;
@@ -83,7 +63,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="8"><h4 class="text-center">Teams Not Found</h4></td>
+                                    <td colspan="8"><h4 class="text-center">Settings Not Found</h4></td>
                                 <tr>
                             @endif
                         </tbody>
